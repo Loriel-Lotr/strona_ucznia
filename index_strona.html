@@ -29,8 +29,19 @@
         }
         @keyframes twinkle { 0%,100%{opacity:0.4} 50%{opacity:1} }
 
-        header { text-align: center; padding: 30px; }
+        header { text-align: center; padding: 20px; }
         h1 { font-size: 2.5em; letter-spacing: 5px; color: white; text-shadow: 0 0 15px var(--cyrkon-blue); margin: 0; }
+
+        /* MAGIA VARDY */
+        .varda-symbol { 
+            display:block; margin:10px auto; width:45px; height:45px; cursor:pointer; 
+            filter: drop-shadow(0 0 10px white); animation: pulse-glow 3s infinite; 
+        }
+        @keyframes pulse-glow {
+            0%,100%{transform:scale(1);filter:drop-shadow(0 0 5px white);}
+            50%{transform:scale(1.1);filter:drop-shadow(0 0 20px var(--cyrkon-blue));}
+        }
+        #varda-message { text-align:center; font-style:italic; min-height:30px; margin-top:10px; color: white; }
 
         .tab-container { width: 95%; max-width: 1000px; margin: 0 auto; }
         .tab-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
@@ -46,11 +57,26 @@
         }
         .tab-content.active { display: block; }
 
+        /* MAGIA BIAŁEGO DRZEWA */
+        .tree-icon { font-size: 80px; text-align: center; margin-bottom: 10px; transition: 1s; }
+        .pulsing-tree { animation: treeGlow 3s infinite ease-in-out; }
+        @keyframes treeGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px white); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 30px var(--cyrkon-blue)); transform: scale(1.05); }
+        }
+
         iframe { width: 100%; height: 500px; border: none; border-radius: 15px; }
-        textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
-        
-        #time-display { font-size: 4em; text-align: center; color: white; text-shadow: 0 0 10px var(--cyrkon-blue); margin: 20px 0; }
-        .tree-icon { font-size: 60px; text-align: center; margin-bottom: 10px; }
+        textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; }
+
+        /* PORTALE PŁYWAJĄCE */
+        .gemini-portal, .thought-portal { position:fixed; bottom:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; transition:0.3s; text-decoration:none; }
+        .gemini-portal { right:25px; background: radial-gradient(circle,#e0f2ff 0%,#00d4ff 100%); box-shadow:0 0 15px var(--cyrkon-blue); font-size: 24px; color: #0a1428; }
+        .thought-portal { left:25px; background: radial-gradient(circle,#fdfbfb 0%,#ebedee 100%); box-shadow:0 0 15px white; font-size: 24px; }
+
+        #thought-popup {
+            display:none; position:fixed; bottom:90px; left:25px; background:rgba(10,20,40,0.95); border:1px solid white; 
+            padding:15px; border-radius:15px; width:230px; z-index:1001;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +85,11 @@
 
 <header>
     <h1>✧ ARAWIS ✧</h1>
+    <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()">
+        <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="white"/>
+        <circle cx="50" cy="50" r="10" fill="var(--cyrkon-blue)"/>
+    </svg>
+    <div id="varda-message">Dotknij Gwiazdy Elentári...</div>
 </header>
 
 <div class="tab-container">
@@ -70,7 +101,7 @@
 
     <div id="timer" class="tab-content active" style="text-align:center;">
         <div class="tree-icon" id="tree-container">⏳</div>
-        <div id="time-display">25:00</div>
+        <div id="time-display" style="font-size: 4em; margin-bottom: 20px;">25:00</div>
         <button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button>
     </div>
 
@@ -84,6 +115,15 @@
     </div>
 </div>
 
+<a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Rozmawiaj z Gemini">✦</a>
+<div class="thought-portal" onclick="toggleThoughts()" title="Brain Dump">✎</div>
+
+<div id="thought-popup">
+    <input type="text" id="new-thought" placeholder="Wyrzuć to z głowy..." style="width:75%; background:none; border:1px solid white; color:white; padding:5px;">
+    <button onclick="addThought()" style="background:white; border:none; padding:5px 10px; cursor:pointer;">+</button>
+    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; font-size:0.8em; color:white; max-height:100px; overflow-y:auto;"></ul>
+</div>
+
 <script>
     function openTab(evt, name) {
         document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
@@ -92,11 +132,13 @@
         evt.currentTarget.classList.add('active');
     }
 
+    // MAGIA BIAŁEGO DRZEWA
     let timer;
     function startTreeTimer() {
         let t = 25 * 60; 
         const tree = document.getElementById('tree-container');
         tree.innerHTML = "🌱"; 
+        tree.classList.add('pulsing-tree');
         clearInterval(timer);
         timer = setInterval(() => {
             let m = Math.floor(t / 60);
@@ -104,11 +146,32 @@
             document.getElementById('time-display').innerText = m + ":" + (s < 10 ? '0' : '') + s;
             if (t <= 0) {
                 clearInterval(timer);
-                tree.innerHTML = "✨ 🌳 ✨";
-                alert("Drzewo rozkwitło!");
+                tree.innerHTML = "🤍🌳"; 
+                tree.classList.remove('pulsing-tree');
+                alert("Białe Drzewo rozkwitło!");
             }
             t--;
         }, 1000);
+    }
+
+    // RADY VARDY
+    function getVardaAdvice() {
+        const advices = ["Nawet najmniejsza gwiazda rozprasza mrok.", "Odetchnij głęboko 5 razy.", "ADHD to supermoc szybkiego myślenia.", "Skup się na małym kroku.", "Jesteś światłem Rivendell, Amariel."];
+        document.getElementById('varda-message').innerText = advices[Math.floor(Math.random()*advices.length)];
+    }
+
+    // BRAIN DUMP
+    function toggleThoughts() {
+        const p = document.getElementById('thought-popup');
+        p.style.display = (p.style.display === 'block') ? 'none' : 'block';
+    }
+    function addThought() {
+        const v = document.getElementById('new-thought').value;
+        if(v) {
+            const li = document.createElement('li'); li.innerText = "✧ " + v;
+            document.getElementById('mini-thought-list').prepend(li);
+            document.getElementById('new-thought').value = "";
+        }
     }
 
     function saveNotes() {

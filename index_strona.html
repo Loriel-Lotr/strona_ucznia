@@ -2,21 +2,21 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Arawis - Akademia Gwiazdy Porannej</title>
+    <title>Arawis - Rubinowa Akademia</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
-            --steel: #778899;
-            --pearl: #f5f5f5;
-            --ice-blue: #e0f2ff;
-            --olive: #556b2f;
-            --gold: #d4af37;
-            --deep-slate: #2f4f4f;
+            --ruby: #800020; /* Bordowy / Rubinowy */
+            --bright-ruby: #a52a2a;
+            --old-gold: #b8860b; /* Stare złoto */
+            --emerald: #046307; /* Szmaragdowa zieleń */
+            --parchment: #f5f5dc; /* Kolor pergaminu dla tekstu */
+            --dark-void: #1a0505; /* Prawie czarne bordo na tło */
         }
 
         body {
-            background: radial-gradient(circle at center, var(--ice-blue) 0%, var(--steel) 100%);
-            color: var(--deep-slate);
+            background: radial-gradient(circle at center, #3d0a0a 0%, var(--dark-void) 100%);
+            color: var(--parchment);
             font-family: 'Georgia', serif;
             margin: 0;
             min-height: 100vh;
@@ -29,15 +29,15 @@
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             z-index: -1;
-            opacity: 0.3;
+            opacity: 0.5;
         }
 
-        /* GWIAZDY AKADEMII */
+        /* GWIAZDY RUBINOWEJ STRAŻY */
         .shooting-star {
             position: fixed;
             width: 3px; height: 3px;
-            background: var(--pearl);
-            box-shadow: 0 0 10px white, -15px 15px 10px var(--gold);
+            background: var(--old-gold);
+            box-shadow: 0 0 10px var(--old-gold), -15px 15px 10px var(--bright-ruby);
             border-radius: 50%;
             pointer-events: none;
             z-index: 100;
@@ -48,71 +48,83 @@
             100% { transform: translate(-400px, 400px) scale(0); opacity: 0; }
         }
 
-        header { text-align: center; padding: 30px; border-bottom: 2px solid var(--gold); background: rgba(255,255,255,0.2); }
-        h1 { font-size: 2.8em; letter-spacing: 4px; color: var(--deep-slate); margin: 0; text-shadow: 1px 1px 2px var(--gold); }
+        header { 
+            text-align: center; 
+            padding: 30px; 
+            border-bottom: 3px double var(--old-gold); 
+            background: rgba(0,0,0,0.3); 
+        }
+        h1 { 
+            font-size: 2.8em; 
+            letter-spacing: 6px; 
+            color: var(--old-gold); 
+            margin: 0; 
+            text-shadow: 2px 2px 4px black; 
+        }
         
         .varda-symbol {
             display: block; margin: 15px auto; width: 50px; height: 50px; cursor: pointer;
-            filter: drop-shadow(0 0 5px var(--gold)); animation: pulse-glow 4s infinite;
+            filter: drop-shadow(0 0 10px var(--old-gold)); animation: pulse-glow 4s infinite;
         }
         @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--gold)); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 15px var(--ice-blue)); }
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px var(--old-gold)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--bright-ruby)); }
         }
 
-        /* ZAKŁADKI AKADEMII */
+        /* ZAKŁADKI STRAŻY */
         .tab-container { width: 95%; max-width: 1000px; margin: 30px auto; }
         .tab-buttons { display: flex; justify-content: center; gap: 12px; margin-bottom: 25px; flex-wrap: wrap; }
         .tab-button {
-            background: var(--pearl); border: 2px solid var(--steel); color: var(--deep-slate);
-            padding: 12px 22px; cursor: pointer; border-radius: 5px; transition: 0.4s; 
-            font-weight: bold; text-transform: uppercase;
+            background: var(--ruby); border: 2px solid var(--old-gold); color: var(--old-gold);
+            padding: 12px 22px; cursor: pointer; border-radius: 0px; /* Bardziej surowy wygląd */
+            transition: 0.4s; font-weight: bold; text-transform: uppercase;
         }
         .tab-button.active { 
-            background: var(--steel); color: white; border-color: var(--gold); 
-            box-shadow: 0 0 15px var(--gold); 
+            background: var(--old-gold); color: var(--ruby); 
+            box-shadow: 0 0 20px var(--old-gold); 
         }
-        .tab-button:hover { border-color: var(--gold); transform: translateY(-2px); }
+        .tab-button:hover { background: var(--bright-ruby); color: white; }
 
         .tab-content {
-            display: none; background: rgba(255, 255, 255, 0.9); border: 3px solid var(--steel);
-            padding: 30px; border-radius: 10px; box-shadow: 10px 10px 0px var(--olive);
+            display: none; 
+            background: rgba(40, 5, 5, 0.9); 
+            border: 2px solid var(--old-gold);
+            padding: 30px; border-radius: 5px; 
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
         }
-        .tab-content.active { display: block; }
+        .tab-content.active { display: block; border-left: 10px solid var(--ruby); }
 
-        /* INPUTY */
+        /* ELEMENTY */
         input, select, textarea { 
-            background: white; color: var(--deep-slate); border: 2px solid var(--steel); 
-            padding: 10px; border-radius: 4px; 
+            background: #2a0505; color: var(--parchment); border: 1px solid var(--old-gold); 
+            padding: 10px; border-radius: 0; 
         }
 
-        .math-box { background: var(--ice-blue); border-left: 5px solid var(--olive); color: var(--deep-slate); }
+        .math-box { background: rgba(0,0,0,0.4); border: 1px solid var(--old-gold); color: var(--old-gold); }
         
-        .music-player { border: 2px solid var(--gold); background: var(--pearl); border-radius: 8px; padding: 15px; }
+        .music-player { border: 1px solid var(--old-gold); background: rgba(0,0,0,0.5); padding: 15px; margin-top: 20px; }
 
         /* PORTALE */
         .gemini-portal { 
-            right: 30px; background: var(--gold); border: 2px solid white; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.2); text-decoration: none; 
+            right: 30px; background: var(--old-gold); 
+            box-shadow: 0 0 20px var(--ruby); text-decoration: none; 
         }
-        .gemini-portal::after { content: '✦'; color: white; font-size: 24px; }
+        .gemini-portal::after { content: '✦'; color: var(--ruby); font-size: 24px; }
         
         .thought-portal { 
-            left: 30px; background: var(--olive); border: 2px solid white; 
-            box-shadow: 0 0 15px rgba(0,0,0,0.2); 
+            left: 30px; background: var(--ruby); border: 1px solid var(--old-gold); 
+            box-shadow: 0 0 20px black; 
         }
-        .thought-portal::after { content: '✎'; color: white; font-size: 24px; }
-
-        #thought-popup {
-            background: white; border: 3px solid var(--olive); color: var(--deep-slate);
-        }
+        .thought-portal::after { content: '✎'; color: var(--old-gold); font-size: 24px; }
 
         .mission-link {
-            border: 2px solid var(--deep-slate); color: white; padding: 15px; border-radius: 5px;
+            border: 1px solid var(--old-gold); color: var(--parchment); padding: 15px;
             text-decoration: none; font-weight: bold; display: block; margin: 10px 0; text-align: center;
+            transition: 0.3s;
         }
-        .link-tasks { background: var(--steel); }
-        .link-keep { background: var(--olive); }
+        .link-tasks { background: var(--ruby); }
+        .link-keep { background: var(--emerald); } /* Tutaj zieleń szmaragdowa */
+        .mission-link:hover { transform: scale(1.02); filter: brightness(1.2); }
     </style>
 </head>
 <body>
@@ -121,12 +133,12 @@
 <div id="shooting-star-container"></div>
 
 <header>
-    <h1 onclick="alert('Witaj w Akademii, Mentorko Amariel!')">✧ ARAWIS ✧</h1>
-    <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()" aria-label="Symbol Dziedzictwa">
-        <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="var(--gold)"/>
-        <circle cx="50" cy="50" r="12" fill="var(--pearl)"/>
+    <h1 onclick="alert('Krew Smoka, Serce Gwiazdy!')">✧ ARAWIS ✧</h1>
+    <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()" aria-label="Symbol Rubinowej Straży">
+        <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="var(--old-gold)"/>
+        <circle cx="50" cy="50" r="12" fill="var(--ruby)"/>
     </svg>
-    <div id="varda-message">Mądrość i Honor...</div>
+    <div id="varda-message">Dyscyplina i Mądrość...</div>
 </header>
 
 <div class="tab-container">
@@ -140,42 +152,42 @@
 
     <div id="timer" class="tab-content active">
         <div id="tree-container" style="font-size:60px; text-align:center;">⏳</div>
-        <div style="font-size: 3.5em; text-align: center; color: var(--deep-slate);" id="time-display">25:00</div>
+        <div style="font-size: 3.5em; text-align: center; color: var(--old-gold); text-shadow: 0 0 10px var(--ruby);" id="time-display">25:00</div>
         <div align="center"><button class="tab-button" onclick="startTreeTimer()">Rozpocznij Skupienie</button></div>
-        <div class="music-player" align="center" style="margin-top:20px;">
-            <input type="text" id="music-url" placeholder="Link do lekcji YT..." style="width:60%">
+        <div class="music-player" align="center">
+            <input type="text" id="music-url" placeholder="Pieśni Akademii..." style="width:60%">
             <button class="tab-button" style="padding:5px 15px;" onclick="playNewMusic()">Graj</button>
-            <iframe id="yt-player" style="height:60px; width:100%; margin-top:10px; border:none;" src="https://www.youtube.com/embed/Z6Lp_mE6u6A"></iframe>
+            <iframe id="yt-player" style="height:60px; width:100%; margin-top:10px; border:none; filter: sepia(1);" src="https://www.youtube.com/embed/Z6Lp_mE6u6A"></iframe>
         </div>
     </div>
 
     <div id="math" class="tab-content">
-        <h2 align="center">Obliczenia Strategiczne</h2>
+        <h2 align="center" style="color:var(--old-gold)">Obliczenia Wojenne</h2>
         <div align="center">
             <input type="number" id="numA" style="width:100px">
             <select id="op"><option value="+">+</option><option value="-">-</option><option value="*">×</option><option value="/">÷</option></select>
             <input type="number" id="numB" style="width:100px">
             <button class="tab-button" onclick="performMath()">Licz</button>
         </div>
-        <div id="math-result" style="margin-top:20px; padding:15px; background:var(--ice-blue); border-left:5px solid var(--gold); font-family:monospace;">Wynik pojawi się tutaj...</div>
+        <div id="math-result" style="margin-top:20px; padding:15px; background:rgba(0,0,0,0.5); border:1px solid var(--old-gold); font-family:monospace; color:var(--old-gold);">Oczekiwanie na dane...</div>
     </div>
 
     <div id="calendar" class="tab-content">
-        <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw" style="border:none; width:100%; height:450px;"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw" style="border:1px solid var(--old-gold); width:100%; height:450px; filter: invert(0.9) hue-rotate(180deg);"></iframe>
         <div align="center" style="margin-top:15px;">
-            <button class="tab-button" style="background:var(--olive); color:white;" onclick="prepareNokia()">☎ EKSPORT DO NOKII</button>
+            <button class="tab-button" style="background:var(--emerald); color:white; border-color:white;" onclick="prepareNokia()">☎ EKSPORT DO NOKII</button>
             <div id="nokia-output" style="background:#c2cfa3; color:black; font-family:monospace; padding:10px; border:2px solid black; display:none; margin-top:10px;"></div>
         </div>
     </div>
 
     <div id="missions" class="tab-content">
-        <h2 align="center">Centrum Misji</h2>
-        <a href="https://tasks.google.com/embed/" target="_blank" class="mission-link link-tasks">⚔ OTWÓRZ ZADANIA AKADEMII ⚔</a>
-        <a href="https://keep.google.com/" target="_blank" class="mission-link link-keep">📜 OTWÓRZ ARCHIWUM NOTATEK 📜</a>
+        <h2 align="center" style="color:var(--old-gold)">Tablica Rozkazów</h2>
+        <a href="https://tasks.google.com/embed/" target="_blank" class="mission-link link-tasks">⚔ GOOGLE TASKS ⚔</a>
+        <a href="https://keep.google.com/" target="_blank" class="mission-link link-keep">📜 GOOGLE KEEP 📜</a>
     </div>
 
     <div id="notes" class="tab-content">
-        <textarea id="myNotes" style="width: 100%; height: 300px; border: 2px solid var(--steel);" placeholder="Wpisz swoje spostrzeżenia..."></textarea>
+        <textarea id="myNotes" style="width: 100%; height: 300px; border: 1px solid var(--old-gold); background:#1a0505;" placeholder="Twoje tajne zapiski..."></textarea>
         <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz w Archiwum</button>
     </div>
 </div>
@@ -183,10 +195,10 @@
 <a href="https://gemini.google.com/" target="_blank" class="gemini-portal" style="position:fixed; bottom:25px; right:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center;"></a>
 <div class="thought-portal" onclick="toggleThoughts()" style="position:fixed; bottom:25px; left:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center;"></div>
 
-<div id="thought-popup" style="display:none; position:fixed; bottom:90px; left:25px; padding:15px; border-radius:10px; width:220px; z-index:1001; box-shadow: 0 0 10px rgba(0,0,0,0.3);">
-    <input type="text" id="new-thought" placeholder="Szybka myśl..." style="width:70%">
-    <button onclick="addThought()">+</button>
-    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; margin:0; font-size:0.9em; max-height:100px; overflow-y:auto;"></ul>
+<div id="thought-popup" style="display:none; position:fixed; bottom:90px; left:25px; padding:15px; border-radius:10px; width:220px; z-index:1001; background:var(--ruby); border:2px solid var(--old-gold);">
+    <input type="text" id="new-thought" placeholder="Szybka myśl..." style="width:70%; background:black;">
+    <button onclick="addThought()" style="background:var(--old-gold); color:var(--ruby); border:none; font-weight:bold;">+</button>
+    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; margin:0; font-size:0.9em; max-height:100px; overflow-y:auto; color:var(--old-gold);"></ul>
 </div>
 
 <script>
@@ -207,7 +219,7 @@
         let a = Number(document.getElementById('numA').value);
         let b = Number(document.getElementById('numB').value);
         let op = document.getElementById('op').value;
-        if(op === '/' && b === 0) { alert("Nie dziel przez zero!"); return; }
+        if(op === '/' && b === 0) { alert("Błąd w obliczeniach!"); return; }
         document.getElementById('math-result').innerText = "WYNIK STRATEGICZNY: " + eval(a + op + b);
     }
 
@@ -218,13 +230,13 @@
         timer = setInterval(() => {
             let m = Math.floor(t/60), s = t%60;
             document.getElementById('time-display').innerText = m + ":" + (s<10?'0':'') + s;
-            if(t<=0) { clearInterval(timer); tree.innerHTML = "✨ 🌳 ✨"; alert("Zadanie ukończone, Mentorko!"); }
+            if(t<=0) { clearInterval(timer); tree.innerHTML = "✨ 🌳 ✨"; alert("Misja Skupienia Ukończona!"); }
             t--;
         }, 1000);
     }
 
     function getVardaAdvice() {
-        const ads = ["Honor ponad wszystko.", "Spokój lodowego błękitu pomoże w nauce.", "ADHD to szybkość smoczego lotu.", "Dyscyplina stali buduje potęgę.", "Zrób 5 głębokich wdechów."];
+        const ads = ["Rubinowa krew płynie w Twoich żyłach.", "Złoto lśni najjaśniej w ciemności.", "ADHD to płomień smoka - naucz się go prowadzić.", "Cisza jest Twoim sprzymierzeńcem.", "Niech Gwiazda prowadzi Twój miecz (i pióro)."];
         const m = document.getElementById('varda-message');
         m.innerText = ads[Math.floor(Math.random()*ads.length)];
     }
@@ -236,7 +248,7 @@
         document.getElementById('shooting-star-container').appendChild(s);
         setTimeout(() => s.remove(), 3000);
     }
-    setInterval(createStar, 5000);
+    setInterval(createStar, 6000);
 
     function toggleThoughts() {
         let p = document.getElementById('thought-popup');
@@ -252,15 +264,15 @@
     }
 
     function prepareNokia() {
-        let t = prompt("Wklej plan dla Nokii:");
+        let t = prompt("Wpisz rozkazy dla Nokii:");
         if(t) {
             let o = document.getElementById('nokia-output');
             o.style.display = 'block';
-            o.innerText = "AKADEMIA PLAN:\n" + t.toUpperCase();
+            o.innerText = "ROZKAZY DNIA:\n" + t.toUpperCase();
         }
     }
 
-    function saveNotes() { localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano w Archiwach!"); }
+    function saveNotes() { localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano w Archiwach Rubinowej Straży!"); }
     window.onload = function() { document.getElementById('myNotes').value = localStorage.getItem('arawis_notes') || ""; }
 </script>
 

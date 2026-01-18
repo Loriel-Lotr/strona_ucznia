@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Arawis - Rivendell</title>
+    <title>Arawis - Gwiazda Poranna</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
@@ -48,25 +48,42 @@
         .tab-button {
             background: rgba(10,25,47,0.6); border: 1px solid var(--silver); color: var(--silver);
             padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.4s;
+            text-transform: uppercase; font-size: 0.85em;
         }
         .tab-button.active { background: white; color: var(--night-blue); box-shadow: 0 0 15px var(--cyrkon-blue); }
 
         .tab-content {
             display: none; background: rgba(10,20,40,0.85); border: 1px solid rgba(192,192,192,0.2);
-            padding: 30px; border-radius: 20px; backdrop-filter: blur(8px);
+            padding: 30px; border-radius: 20px; backdrop-filter: blur(8px); min-height: 450px;
         }
         .tab-content.active { display: block; }
 
-        /* MAGIA BIAŁEGO DRZEWA */
-        .tree-icon { font-size: 80px; text-align: center; margin-bottom: 10px; transition: 1s; }
-        .pulsing-tree { animation: treeGlow 3s infinite ease-in-out; }
-        @keyframes treeGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px white); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 30px var(--cyrkon-blue)); transform: scale(1.05); }
+        /* PRAWDZIWE BIAŁE DRZEWO */
+        #tree-container {
+            width: 180px;
+            height: 180px;
+            margin: 20px auto;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/White_Tree_of_Gondor.svg/1200px-White_Tree_of_Gondor.svg.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            filter: drop-shadow(0 0 8px white) brightness(1.8);
+            transition: all 1s ease;
         }
 
+        .pulsing-tree {
+            animation: treeGlow 4s infinite ease-in-out;
+        }
+
+        @keyframes treeGlow {
+            0%, 100% { filter: drop-shadow(0 0 10px white) brightness(1.5); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 25px var(--cyrkon-blue)) brightness(2.5); transform: scale(1.03); }
+        }
+
+        #time-display { font-size: 4em; text-align: center; color: white; text-shadow: 0 0 10px var(--cyrkon-blue); margin: 10px 0; }
+
         iframe { width: 100%; height: 500px; border: none; border-radius: 15px; }
-        textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; }
+        textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
 
         /* PORTALE PŁYWAJĄCE */
         .gemini-portal, .thought-portal { position:fixed; bottom:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; transition:0.3s; text-decoration:none; }
@@ -100,9 +117,9 @@
     </div>
 
     <div id="timer" class="tab-content active" style="text-align:center;">
-        <div class="tree-icon" id="tree-container">⏳</div>
-        <div id="time-display" style="font-size: 4em; margin-bottom: 20px;">25:00</div>
-        <button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button>
+        <div id="tree-container"></div>
+        <div id="time-display">25:00</div>
+        <button class="tab-button" onclick="startTreeTimer()">Rozpocznij Skupienie</button>
     </div>
 
     <div id="calendar" class="tab-content">
@@ -116,7 +133,7 @@
 </div>
 
 <a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Rozmawiaj z Gemini">✦</a>
-<div class="thought-portal" onclick="toggleThoughts()" title="Brain Dump">✎</div>
+<div class="thought-portal" onclick="toggleThoughts()" title="Szybkie myśli">✎</div>
 
 <div id="thought-popup">
     <input type="text" id="new-thought" placeholder="Wyrzuć to z głowy..." style="width:75%; background:none; border:1px solid white; color:white; padding:5px;">
@@ -137,8 +154,8 @@
     function startTreeTimer() {
         let t = 25 * 60; 
         const tree = document.getElementById('tree-container');
-        tree.innerHTML = "🌱"; 
         tree.classList.add('pulsing-tree');
+        
         clearInterval(timer);
         timer = setInterval(() => {
             let m = Math.floor(t / 60);
@@ -146,9 +163,9 @@
             document.getElementById('time-display').innerText = m + ":" + (s < 10 ? '0' : '') + s;
             if (t <= 0) {
                 clearInterval(timer);
-                tree.innerHTML = "🤍🌳"; 
                 tree.classList.remove('pulsing-tree');
-                alert("Białe Drzewo rozkwitło!");
+                tree.style.filter = "drop-shadow(0 0 40px white) brightness(3)";
+                alert("Białe Drzewo rozkwitło! Misja zakończona sukcesem.");
             }
             t--;
         }, 1000);
@@ -156,11 +173,17 @@
 
     // RADY VARDY
     function getVardaAdvice() {
-        const advices = ["Nawet najmniejsza gwiazda rozprasza mrok.", "Odetchnij głęboko 5 razy.", "ADHD to supermoc szybkiego myślenia.", "Skup się na małym kroku.", "Jesteś światłem Rivendell, Amariel."];
+        const advices = [
+            "Nawet najmniejsza gwiazda rozprasza mrok.", 
+            "Odetchnij głęboko 5 razy... Rivendell czuwa.", 
+            "ADHD to supermoc szybkiego myślenia - użyj jej!", 
+            "Podziel wielkie zadanie na małe kroki.", 
+            "Jesteś światłem Imladris, Amariel."
+        ];
         document.getElementById('varda-message').innerText = advices[Math.floor(Math.random()*advices.length)];
     }
 
-    // BRAIN DUMP
+    // BRAIN DUMP / SZYBKIE MYŚLI
     function toggleThoughts() {
         const p = document.getElementById('thought-popup');
         p.style.display = (p.style.display === 'block') ? 'none' : 'block';
@@ -168,15 +191,17 @@
     function addThought() {
         const v = document.getElementById('new-thought').value;
         if(v) {
-            const li = document.createElement('li'); li.innerText = "✧ " + v;
+            const li = document.createElement('li'); 
+            li.innerHTML = "✧ " + v + "<hr style='opacity:0.2; margin:5px 0;'>";
             document.getElementById('mini-thought-list').prepend(li);
             document.getElementById('new-thought').value = "";
         }
     }
 
+    // ZAPISYWANIE NOTATEK
     function saveNotes() {
         localStorage.setItem('arawis_classic_notes', document.getElementById('myNotes').value);
-        alert("Zapisano!");
+        alert("Twoje zapiski zostały zabezpieczone w archiwach!");
     }
 
     window.onload = function() {

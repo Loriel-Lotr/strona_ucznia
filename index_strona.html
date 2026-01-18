@@ -129,10 +129,53 @@
     <div id="math" class="tab-content">
         <h2>Dzielenie pod kreską</h2>
         <p>Wpisz liczby, aby otrzymać wynik (logika obliczeń pisemnych w trakcie budowy...)</p>
-        <input type="number" id="val1" style="padding: 10px;"> ÷ 
-        <input type="number" id="val2" style="padding: 10px;">
-        <button class="tab-button" onclick="alert('Tu pojawi się schemat pisemny!')">Oblicz</button>
+       <div id="math" class="tab-content">
+    <h2>Matematyka Imladris</h2>
+    <div style="margin-bottom: 20px;">
+        <input type="number" id="numA" placeholder="Liczba A" style="width: 80px;">
+        <select id="op" style="padding: 10px; background: #3e2723; color: white; border-radius: 5px;">
+            <option value="add">+</option>
+            <option value="sub">-</option>
+            <option value="mul">×</option>
+            <option value="div">÷</option>
+        </select>
+        <input type="number" id="numB" placeholder="Liczba B" style="width: 80px;">
+        <button class="tab-button" onclick="performMath()">Oblicz pisemnie</button>
     </div>
+
+    <div id="math-result" style="font-family: 'Courier New', monospace; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; line-height: 1.5; color: #e0f2ff; white-space: pre;">
+        Wpisz liczby i wybierz działanie, by zobaczyć magię...
+    </div>
+</div>
+
+<script>
+function performMath() {
+    const a = document.getElementById('numA').value;
+    const b = document.getElementById('numB').value;
+    const op = document.getElementById('op').value;
+    const resDiv = document.getElementById('math-result');
+
+    if(!a || !b) { resDiv.innerText = "Wpisz obie liczby, Amariel!"; return; }
+
+    if(op === 'add') {
+        let sum = Number(a) + Number(b);
+        resDiv.innerHTML = `  ${a.padStart(10)}\n+ ${b.padStart(10)}\n----------\n  ${sum.toString().padStart(10)}`;
+    } 
+    else if(op === 'sub') {
+        let diff = Number(a) - Number(b);
+        resDiv.innerHTML = `  ${a.padStart(10)}\n- ${b.padStart(10)}\n----------\n  ${diff.toString().padStart(10)}`;
+    }
+    else if(op === 'mul') {
+        let prod = Number(a) * Number(b);
+        resDiv.innerHTML = `Mnożenie pisemne (uproszczone):\n\n  ${a.padStart(10)}\n× ${b.padStart(10)}\n----------\n  ${prod.toString().padStart(10)}`;
+    }
+    else if(op === 'div') {
+        let quotient = Math.floor(Number(a) / Number(b));
+        let remainder = Number(a) % Number(b);
+        resDiv.innerHTML = `Dzielenie: ${a} ÷ ${b}\n\nWynik: ${quotient}\nReszta: ${remainder}\n\n(Pracujemy nad pełnym schematem schodkowym!)`;
+    }
+}
+</script>
 
     <div id="calendar" class="tab-content">
         <h2>Twoje Terminy</h2>
@@ -184,3 +227,4 @@
 </body>
 
 </html>
+

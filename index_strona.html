@@ -207,6 +207,54 @@
             box-shadow: 0 0 10px var(--cyrkon-blue);
             color: var(--cyrkon-blue);
         }
+        /* Styl dla Zwoju Myśli */
+        .brain-dump-container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--cyrkon-blue);
+            border-radius: 15px;
+            padding: 15px;
+            box-shadow: 0 0 15px rgba(0, 212, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        #brain-input {
+            flex-grow: 1;
+            background: none;
+            border: none;
+            border-bottom: 1px solid var(--silver);
+            color: white;
+            padding: 5px;
+            font-family: 'Georgia', serif;
+            font-style: italic;
+        }
+
+        #brain-input:focus {
+            outline: none;
+            border-bottom: 1px solid var(--cyrkon-blue);
+        }
+
+        .dump-list {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            list-style: none;
+            padding: 0;
+        }
+
+        .dump-item {
+            background: rgba(255, 255, 255, 0.1);
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            animation: fadeIn 0.3s;
+        }
     </style>
 </head>
 <body>
@@ -236,7 +284,11 @@
     <h1>✧ ARAWIS ✧</h1>
     <p>Gwiazda Poranna Rivendell</p>
 </header>
-
+<div class="brain-dump-container">
+        <input type="text" id="brain-input" placeholder="Co Ci chodzi po głowie, Gwiazdo Poranna?">
+        <button class="tab-button" onclick="addThought()" style="padding: 5px 15px;">Zapisz</button>
+    </div>
+    <ul id="thought-list" class="dump-list"></ul>
 <div class="tab-container">
     <div class="tab-buttons">
         <button class="tab-button active" onclick="openTab(event, 'timer')">Białe Drzewo</button>
@@ -372,11 +424,32 @@
         const saved = localStorage.getItem('arawis_notes');
         if(saved) document.getElementById('myNotes').value = saved;
     }
+    function addThought() {
+        const input = document.getElementById('brain-input');
+        const list = document.getElementById('thought-list');
+        
+        if (input.value.trim() !== "") {
+            const li = document.createElement('li');
+            li.className = 'dump-item';
+            li.innerHTML = `<span>✧ ${input.value}</span> <span style="cursor:pointer; color:var(--cyrkon-blue)" onclick="this.parentElement.remove()">✕</span>`;
+            
+            list.prepend(li); // Dodaje nową myśl na samej górze
+            input.value = ""; // Czyści pole
+        }
+    }
+
+    // Pozwala dodać myśl klikając Enter
+    document.getElementById('brain-input').addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            addThought();
+        }
+    });
 </script>
     <a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Zapytaj Gemini"></a>
     <div class="portal-tooltip">Skonsultuj się z Gemini</div>
 </body>
 </html>
+
 
 
 

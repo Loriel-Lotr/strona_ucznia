@@ -1,294 +1,179 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-    <meta charset="UTF-8">
-    <title>Arawis - Gwiazda Poranna Rivendell</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        /* Symbol Varday */
-        .varda-symbol {
-            display: block;
-            margin: 20px auto;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            filter: drop-shadow(0 0 10px white);
-            transition: 0.5s;
-            animation: pulse-glow 3s infinite;
-        }
+<meta charset="UTF-8">
+<title>Arawis - Gwiazda Poranna Rivendell</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+:root {
+    --night-blue: #0a1428;
+    --silver: #c0c0c0;
+    --star-glow: #e0f2ff;
+    --cyrkon-blue: #00d4ff;
+}
 
-        @keyframes pulse-glow {
-            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px white); }
-            50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--cyrkon-blue)); }
-        }
+body {
+    background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
+    color: var(--silver);
+    font-family: 'Georgia', serif;
+    margin: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    cursor: url('https://cur.cursors-4u.net/games/gam-4/gam372.cur'), auto;
+}
 
-        #varda-message {
-            text-align: center;
-            font-style: italic;
-            min-height: 40px;
-            margin: 10px auto;
-            max-width: 600px;
-            color: white;
-            text-shadow: 0 0 5px var(--cyrkon-blue);
-        }
-        :root {
-            --night-blue: #0a1428;
-            --silver: #c0c0c0;
-            --star-glow: #e0f2ff;
-            --cyrkon-blue: #00d4ff;
-        }
+/* GWIAZDY */
+.stars {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/stardust.png');
+    z-index: -1;
+    animation: twinkle 5s infinite ease-in-out;
+}
+@keyframes twinkle {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+}
 
-        body {
-            background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
-            color: var(--silver);
-            font-family: 'Georgia', serif;
-            margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-           
-        }
+/* SPADAJĄCE GWIAZDY - LOSOWE */
+.shooting-star {
+    position: fixed;
+    width: 3px; height: 3px; background: white;
+    border-radius: 50%;
+    opacity: 0;
+    z-index: 100;
+    pointer-events: none;
+    box-shadow: 0 0 10px white, 0 0 20px white, -20px 20px 15px rgba(255,255,255,0.5);
+}
 
-        .stars {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            z-index: -1;
-            animation: twinkle 5s infinite ease-in-out;
-        }
+@keyframes shoot {
+    0% { transform: translate(0,0) scale(1); opacity: 0; }
+    5% { opacity: 1; }
+    20% { transform: translate(var(--dx), var(--dy)) scale(0.1); opacity: 0; }
+    100% { opacity: 0; }
+}
 
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 1; }
-        }
+/* GWIAZDOZBIORY */
+.constellation {
+    position: fixed; z-index: -1;
+    filter: drop-shadow(0 0 8px var(--cyrkon-blue));
+    opacity: 0.6; pointer-events: none;
+}
+#valacirca { top: 10%; left: 5%; width: 200px; transform: rotate(-20deg); }
+#menelmacar { bottom: 15%; right: 10%; width: 150px; }
 
-        .shooting-star {
-            position: fixed;
-            top: -10px;
-            left: 50%;
-            width: 2px;
-            height: 2px;
-            background: white;
-            box-shadow: 0 0 10px white, 0 0 20px white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: shoot 7s infinite linear;
-            z-index: -1;
-        }
+/* NAGŁÓWEK */
+header { text-align:center; padding:30px; text-shadow:0 0 15px var(--star-glow); cursor:pointer; }
+h1 { font-size:2.5em; letter-spacing:5px; color:white; margin:0; }
+.varda-symbol {
+    display:block; margin:15px auto; width:50px; height:50px; cursor:pointer;
+    filter: drop-shadow(0 0 10px white);
+    animation: pulse-glow 3s infinite;
+}
+@keyframes pulse-glow {
+    0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px white); }
+    50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--cyrkon-blue)); }
+}
+#varda-message {
+    text-align:center; font-style:italic; min-height:40px;
+    margin:10px auto; max-width:600px; color:white;
+    text-shadow:0 0 5px var(--cyrkon-blue); transition:0.3s;
+}
 
-        @keyframes shoot {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            15% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
-            100% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
-        }
+/* ZAKŁADKI */
+.tab-container { width:95%; max-width:1000px; margin:0 auto; }
+.tab-buttons { display:flex; justify-content:center; gap:15px; margin-bottom:25px; flex-wrap:wrap; }
+.tab-button {
+    background: rgba(10,25,47,0.6);
+    border:1px solid var(--silver);
+    color: var(--silver);
+    padding:10px 20px;
+    cursor:pointer;
+    border-radius:30px;
+    transition:0.4s;
+    text-transform:uppercase;
+    font-size:1em;
+}
+.tab-button:hover, .tab-button.active {
+    background:white; color: var(--night-blue);
+    box-shadow:0 0 20px var(--cyrkon-blue);
+    transform: translateY(-2px);
+}
+.tab-content {
+    display:none; background: rgba(10,20,40,0.85);
+    border:1px solid rgba(192,192,192,0.2);
+    padding:30px; border-radius:20px; backdrop-filter:blur(10px);
+}
+.tab-content.active { display:block; }
 
-        header {
-            text-align: center;
-            padding: 40px;
-            text-shadow: 0 0 15px var(--star-glow);
-        }
+/* MATEMATYKA I MUZYKA */
+input, select { padding:8px; background:#1a2a44; color:white; border:1px solid var(--silver); border-radius:5px; font-size:1em; }
+.math-box { font-family:'Courier New', monospace; background: rgba(255,255,255,0.05); padding:15px; border-radius:10px; white-space:pre; border-left:4px solid var(--cyrkon-blue); margin-top:15px; }
+.music-player { background: rgba(10,25,47,0.7); border:1px solid var(--cyrkon-blue); border-radius:15px; padding:10px; margin-top:20px; max-width:400px; margin-left:auto; margin-right:auto; }
 
-        h1 { font-size: 2.5em; letter-spacing: 5px; color: white; margin: 0; }
+/* PORTALE */
+.gemini-portal, .thought-portal {
+    position: fixed; bottom:30px; width:60px; height:60px;
+    border-radius:50%; display:flex; align-items:center; justify-content:center;
+    cursor:pointer; z-index:1000; transition:0.3s; font-size:24px; text-decoration:none;
+}
+.gemini-portal { right:30px; background: radial-gradient(circle, #e0f2ff 0%, #00d4ff 100%); box-shadow:0 0 20px rgba(0,212,255,0.6); }
+.gemini-portal::after { content:'✦'; color:white; }
+.thought-portal { left:30px; background: radial-gradient(circle, #fdfbfb 0%, #ebedee 100%); box-shadow:0 0 20px white; }
+.thought-portal::after { content:'✎'; color:#0a1428; }
+#thought-popup { display:none; position:fixed; bottom:100px; left:30px; background: rgba(10,20,40,0.95); border:1px solid white; padding:15px; border-radius:15px; width:250px; z-index:1001; }
+iframe { border-radius:10px; width:100%; height:500px; border:none; }
 
-        .tab-container {
-            width: 95%;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-
-        .tab-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            flex-wrap: wrap;
-        }
-
-        .tab-button {
-            background: rgba(10, 25, 47, 0.6);
-            border: 1px solid var(--silver);
-            color: var(--silver);
-            padding: 12px 25px;
-            cursor: pointer;
-            border-radius: 30px;
-            transition: all 0.4s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .tab-button:hover, .tab-button.active {
-            background: white;
-            color: var(--night-blue);
-            box-shadow: 0 0 20px var(--cyrkon-blue), 0 0 40px var(--cyrkon-blue);
-            transform: translateY(-2px);
-        }
-
-        .tab-content {
-            display: none;
-            background: rgba(10, 20, 40, 0.85);
-            border: 1px solid rgba(192, 192, 192, 0.2);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
-            animation: fadeIn 0.5s;
-        }
-
-        .tab-content.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .math-box {
-            font-family: 'Courier New', monospace;
-            background: rgba(255,255,255,0.05);
-            padding: 20px;
-            border-radius: 10px;
-            white-space: pre;
-            margin-top: 20px;
-            border-left: 4px solid var(--cyrkon-blue);
-            overflow-x: auto;
-        }
-
-        input, select {
-            padding: 10px;
-            background: #1a2a44;
-            color: white;
-            border: 1px solid var(--silver);
-            border-radius: 5px;
-            margin: 5px;
-        }
-
-        iframe {
-            border: 1px solid var(--silver);
-            border-radius: 10px;
-            width: 100%;
-            height: 500px;
-        }
-
-        .constellation {
-            position: fixed;
-            z-index: -1;
-            filter: drop-shadow(0 0 8px var(--cyrkon-blue));
-            opacity: 0.6;
-            pointer-events: none;
-        }
-        
-        #valacirca { top: 10%; left: 5%; width: 200px; transform: rotate(-20deg); }
-        #menelmacar { bottom: 15%; right: 10%; width: 150px; }
-
-        /* PORTALE W ROGACH */
-        .gemini-portal, .thought-portal {
-            position: fixed;
-            bottom: 30px;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            z-index: 1000;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            font-size: 24px;
-        }
-
-        .gemini-portal { 
-            right: 30px; 
-            background: radial-gradient(circle, #e0f2ff 0%, #00d4ff 100%);
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
-        }
-        .gemini-portal::after { content: '✦'; color: white; }
-
-        .thought-portal { 
-            left: 30px; 
-            background: radial-gradient(circle, #fdfbfb 0%, #ebedee 100%);
-            box-shadow: 0 0 20px white;
-        }
-        .thought-portal::after { content: '✎'; color: #0a1428; }
-
-        #thought-popup {
-            display: none;
-            position: fixed;
-            bottom: 100px;
-            left: 30px;
-            background: rgba(10, 20, 40, 0.95);
-            border: 1px solid white;
-            padding: 20px;
-            border-radius: 15px;
-            width: 250px;
-            z-index: 1001;
-        }
-
-        /* Muzyka */
-        .music-player {
-            background: rgba(10, 25, 47, 0.7);
-            border: 1px solid var(--cyrkon-blue);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 768px) {
-            .tab-buttons { flex-direction: column; }
-            iframe { height: 350px; }
-        }
-    </style>
+@media (max-width:768px){
+    .tab-buttons { flex-direction: column; }
+    iframe { height:350px; }
+    h1 { font-size:2em; }
+    #time-display { font-size:2.5em; }
+}
+</style>
 </head>
 <body>
 
 <div class="stars"></div>
-<div class="shooting-star"></div>
 
-<svg id="valacirca" class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+<svg id="valacirca" class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="Gwiazdozbiór Valacirca">
     <circle cx="10" cy="50" r="1.5" fill="white" /><circle cx="25" cy="45" r="1.5" fill="white" />
-    <circle cx="40" cy="50" r="1.5" fill="white" /><circle cx="55" cy="65" r="2" fill="white" /> 
-    <circle cx="75" cy="65" r="1.5" fill="white" /><circle cx="75" cy="45" r="1.5" fill="white" />
-    <circle cx="55" cy="45" r="1.5" fill="white" />
-    <path d="M10 50 L25 45 L40 50 L55 65 L75 65 L75 45 L55 45 L55 65" stroke="rgba(0, 212, 255, 0.3)" stroke-width="0.5" fill="none" />
+    <circle cx="40" cy="50" r="1.5" fill="white" /><circle cx="55" cy="65" r="2" fill="white" />
+    <path d="M10 50 L25 45 L40 50 L55 65 L75 65 L75 45 L55 45 L55 65" stroke="rgba(0,212,255,0.3)" stroke-width="0.5" fill="none"/>
 </svg>
 
-<header>
+<header id="main-header">
     <h1>✧ ARAWIS ✧</h1>
     <p>Gwiazda Poranna Rivendell</p>
-    <div align="center">
-        <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()">
-            <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="white"/>
-            <circle cx="50" cy="50" r="10" fill="var(--cyrkon-blue)"/>
-        </svg>
-        <div id="varda-message">Kliknij w Gwiazdę Elentári, by usłyszeć radę...</div>
-    </div>
+    <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()" aria-label="Symbol Vardy">
+        <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="white"/>
+        <circle cx="50" cy="50" r="10" fill="var(--cyrkon-blue)"/>
+    </svg>
+    <div id="varda-message">Kliknij w Gwiazdę Elentári, by usłyszeć radę...</div>
 </header>
 
 <div class="tab-container">
     <div class="tab-buttons">
         <button class="tab-button active" onclick="openTab(event, 'timer')">Białe Drzewo</button>
         <button class="tab-button" onclick="openTab(event, 'math')">Matematyka</button>
-        <button class="tab-button" onclick="event, openTab(event, 'calendar')">Kalendarz</button>
+        <button class="tab-button" onclick="openTab(event, 'calendar')">Kalendarz</button>
         <button class="tab-button" onclick="openTab(event, 'notes')">Notatnik</button>
     </div>
 
     <div id="timer" class="tab-content active">
         <h2 align="center">Koncentracja w Imladris</h2>
-        <div id="tree-container" align="center">⏳</div>
-        <div style="font-size: 3.5em; text-align: center; margin-bottom: 20px;" id="time-display">25:00</div>
-        <div align="center">
-            <button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button>
-        </div>
+        <div id="tree-container" style="font-size:60px; text-align:center;">⏳</div>
+        <div style="font-size: 3.5em; text-align:center; margin-bottom:20px;" id="time-display">25:00</div>
+        <div align="center"><button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button></div>
 
         <div class="music-player" align="center">
-            <p>✧ Muzyka Imladris ✧</p>
-            <iframe id="yt-player" width="100%" height="80" src="https://www.youtube.com/embed/Z6Lp_mE6u6A" frameborder="0"></iframe>
-            <div style="margin-top:10px">
-                <button class="tab-button" style="font-size:0.7em" onclick="changeMusic('Z6Lp_mE6u6A')">Ambient</button>
-                <button class="tab-button" style="font-size:0.7em" onclick="changeMusic('f6vY6S86E60')">Las</button>
-            </div>
+            <input type="text" id="music-url" placeholder="Wklej ID filmu..." style="width:70%;">
+            <button class="tab-button" style="padding:5px;" onclick="playNewMusic()">Graj</button>
+            <iframe id="yt-player" src="https://www.youtube.com/embed/Z6Lp_mE6u6A" frameborder="0"></iframe>
         </div>
     </div>
 
     <div id="math" class="tab-content">
-        <h2>Matematyka Elfów</h2>
+        <h2 align="center">Matematyka Elfów</h2>
         <div align="center">
             <input type="number" id="numA" placeholder="Liczba A">
             <select id="op">
@@ -296,109 +181,142 @@
                 <option value="mul">×</option><option value="div">÷</option>
             </select>
             <input type="number" id="numB" placeholder="Liczba B">
-            <br><br>
             <button class="tab-button" onclick="performMath()">Oblicz</button>
         </div>
         <div id="math-result" class="math-box">Tu pojawi się wynik...</div>
     </div>
 
     <div id="calendar" class="tab-content">
-        <h2 align="center">Terminy Gwiazdy Porannej</h2>
-        <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw" frameborder="0" scrolling="no"></iframe>
+        <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw"></iframe>
     </div>
 
     <div id="notes" class="tab-content">
         <h2>Elfickie Zapiski</h2>
-        <textarea id="myNotes" style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border-radius: 10px; padding: 10px;"></textarea>
-        <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz</button>
+        <textarea id="myNotes" style="width:100%; height:250px; background:rgba(0,0,0,0.2); color:white; padding:10px; border-radius:10px; border:1px solid var(--silver);"></textarea>
+        <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz Notatki</button>
     </div>
 </div>
 
 <a href="https://gemini.google.com/" target="_blank" class="gemini-portal"></a>
 <div class="thought-portal" onclick="toggleThoughts()"></div>
 <div id="thought-popup">
-    <input type="text" id="new-thought" placeholder="Twoja myśl..." style="width:70%">
+    <input type="text" id="new-thought" placeholder="Myśl..." style="width:70%">
     <button onclick="addThought()" style="cursor:pointer; border-radius:50%;">+</button>
-    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; color:white; font-size:0.8em;"></ul>
+    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; color:white; font-size:0.8em; max-height:100px; overflow-y:auto;"></ul>
 </div>
 
 <script>
-    function openTab(evt, tabName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
-        tablinks = document.getElementsByClassName("tab-button");
-        for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-        document.getElementById(tabName).style.display = "block";
-        evt.currentTarget.classList.add("active");
-    }
+/* ZAKŁADKI */
+function openTab(evt, name){
+    let contents=document.getElementsByClassName("tab-content");
+    for(let c of contents){c.style.display="none";}
+    let buttons=document.getElementsByClassName("tab-button");
+    for(let b of buttons){b.classList.remove("active");}
+    document.getElementById(name).style.display="block";
+    evt.currentTarget.classList.add("active");
+}
 
-    function changeMusic(id) { document.getElementById('yt-player').src = "https://www.youtube.com/embed/" + id + "?autoplay=1"; }
+/* MUZYKA */
+function playNewMusic(){
+    let input=document.getElementById('music-url').value;
+    let id=input;
+    if(input.includes('v=')){ id=input.split('v=')[1].split('&')[0]; }
+    else if(input.includes('youtu.be/')){ id=input.split('youtu.be/')[1]; }
+    document.getElementById('yt-player').src="https://www.youtube.com/embed/"+id+"?autoplay=1";
+}
 
-    function performMath() {
-        const a = document.getElementById('numA').value;
-        const b = document.getElementById('numB').value;
-        const op = document.getElementById('op').value;
-        const resDiv = document.getElementById('math-result');
-        let res = eval(a + (op==='add'?'+':op==='sub'?'-':op==='mul'?'*':'/') + b);
-        resDiv.innerText = "Wynik: " + res;
-    }
+/* MATEMATYKA */
+function performMath(){
+    let a=Number(document.getElementById('numA').value);
+    let b=Number(document.getElementById('numB').value);
+    let op=document.getElementById('op').value;
+    let res;
+    if(op==='add'){res=a+b;}
+    else if(op==='sub'){res=a-b;}
+    else if(op==='mul'){res=a*b;}
+    else if(op==='div'){res=b!==0?a/b:"Nie można dzielić przez 0";}
+    document.getElementById('math-result').innerText="Wynik: "+res;
+}
 
-    let timerInterval;
-    function startTreeTimer() {
-        let time = 25 * 60;
-        const tree = document.getElementById('tree-container');
-        tree.innerHTML = "🌱";
-        clearInterval(timerInterval);
-        timerInterval = setInterval(() => {
-            let m = Math.floor(time / 60);
-            let s = time % 60;
-            document.getElementById('time-display').innerText = m + ":" + (s < 10 ? '0' : '') + s;
-            if (time === 0) { clearInterval(timerInterval); tree.innerHTML = "✨ 🌳 ✨"; alert("Urosło!"); }
-            time--;
-        }, 1000);
-    }
+/* TIMER */
+let timer;
+function startTreeTimer(){
+    let t=25*60;
+    let tree=document.getElementById('tree-container');
+    tree.innerHTML="🌱";
+    clearInterval(timer);
+    timer=setInterval(()=>{
+        let m=Math.floor(t/60); let s=t%60;
+        document.getElementById('time-display').innerText=m+":"+(s<10?'0':'')+s;
+        if(t<=0){clearInterval(timer); tree.innerHTML="✨ 🌳 ✨"; alert("Zrobione!");}
+        t--;
+    },1000);
+}
 
-    function toggleThoughts() {
-        const p = document.getElementById('thought-popup');
-        p.style.display = (p.style.display === 'block') ? 'none' : 'block';
-    }
+/* RADY VARDY */
+const vardaAdvices=[
+    "Nawet najmniejsza gwiazda rozprasza ciemności.",
+    "ADHD to dar szybkiego myślenia - wyznacz mu tylko brzegi.",
+    "Zrób 5 głębokich wdechów. Spokój to Twoja siła.",
+    "Skup się na jednej rzeczy przez 10 minut. Gwiazdy Ci sprzyjają.",
+    "Twoja kreatywność jest jak światło Dwóch Drzew."
+];
+function getVardaAdvice(){
+    let msg=document.getElementById('varda-message');
+    msg.style.opacity=0;
+    setTimeout(()=>{
+        msg.innerText=vardaAdvices[Math.floor(Math.random()*vardaAdvices.length)];
+        msg.style.opacity=1;
+    },300);
+}
 
-    function addThought() {
-        const val = document.getElementById('new-thought').value;
-        if(val) {
-            const li = document.createElement('li');
-            li.innerHTML = "✧ " + val;
-            document.getElementById('mini-thought-list').prepend(li);
-            document.getElementById('new-thought').value = "";
-        }
+/* MINI MYŚLI */
+function toggleThoughts(){
+    let p=document.getElementById('thought-popup');
+    p.style.display=p.style.display==='block'?'none':'block';
+}
+function addThought(){
+    let v=document.getElementById('new-thought').value;
+    if(v){
+        let li=document.createElement('li'); li.innerText="✧ "+v;
+        document.getElementById('mini-thought-list').prepend(li);
+        document.getElementById('new-thought').value="";
     }
-const vardaAdvices = [
-        "Aiya Elentári! Pamiętaj, że nawet najmniejsza gwiazda rozprasza największe ciemności.",
-        "ADHD to dar szybkiego myślenia – pozwól swoim myślom płynąć jak Wielka Rzeka, ale wyznacz im brzegi.",
-        "Zrób teraz 5 głębokich wdechów. Powietrze w Imladris zawsze przynosi spokój.",
-        "Namarie! Skup się na jednej rzeczy przez 10 minut, a gwiazdy będą Ci sprzyjać.",
-        "Elen síla lúmenn' omentielvo – gwiazda świeci nad godziną naszego spotkania. Odpocznij chwilę.",
-        "Twoja kreatywność jest jak światło Dwóch Drzew. Nie pozwól nikomu jej zgasić.",
-        "Jeśli zadanie wydaje się za trudne, podziel je na małe kroki, jak stopnie w wieży Elostirion."
-    ];
+}
 
-    function getVardaAdvice() {
-        const msgDiv = document.getElementById('varda-message');
-        const randomAdvice = vardaAdvices[Math.floor(Math.random() * vardaAdvices.length)];
-        
-        // Efekt znikania i pojawiania się tekstu
-        msgDiv.style.opacity = 0;
-        setTimeout(() => {
-            msgDiv.innerText = randomAdvice;
-            msgDiv.style.opacity = 1;
-        }, 300);
+/* NOTATKI */
+function saveNotes(){ localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano!"); }
+window.onload=function(){ document.getElementById('myNotes').value=localStorage.getItem('arawis_notes')||""; createShootingStars(); }
+
+/* SPADAJĄCE GWIAZDY LOSOWE */
+function createShootingStars(){
+    for(let i=0;i<5;i++){
+        let star=document.createElement('div');
+        star.className='shooting-star';
+        document.body.appendChild(star);
+        animateStar(star);
     }
-    function saveNotes() { localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano!"); }
-    window.onload = function() { document.getElementById('myNotes').value = localStorage.getItem('arawis_notes') || ""; }
+}
+function animateStar(star){
+    let x=Math.random()*window.innerWidth;
+    let y=Math.random()*window.innerHeight*0.5;
+    let dx=(-Math.random()*window.innerWidth*0.5)+'px';
+    let dy=(Math.random()*window.innerHeight*0.5)+'px';
+    star.style.left=x+'px'; star.style.top=y+'px';
+    star.style.setProperty('--dx', dx); star.style.setProperty('--dy', dy);
+    star.style.animation='shoot '+(2+Math.random()*3)+'s ease-in-out infinite';
+}
+
+/* EASTER EGG */
+let clickCount=0;
+document.getElementById('main-header').addEventListener('click',()=>{
+    clickCount++;
+    if(clickCount===5){
+        alert("Sekret Vardy: 'Światło zawsze powraca po ciemności ✨'");
+        clickCount=0;
+    }
+});
 </script>
 
 </body>
 </html>
-
-

@@ -32,7 +32,6 @@
         header { text-align: center; padding: 20px; }
         h1 { font-size: 2.5em; letter-spacing: 5px; color: white; text-shadow: 0 0 15px var(--cyrkon-blue); margin: 0; }
 
-        /* MAGIA VARDY */
         .varda-symbol { 
             display:block; margin:10px auto; width:45px; height:45px; cursor:pointer; 
             filter: drop-shadow(0 0 10px white); animation: pulse-glow 3s infinite; 
@@ -58,26 +57,18 @@
         }
         .tab-content.active { display: block; }
 
-        /* PRAWDZIWE BIAŁE DRZEWO */
-        #tree-container {
-            width: 180px;
-            height: 180px;
-            margin: 20px auto;
-            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/White_Tree_of_Gondor.svg/1200px-White_Tree_of_Gondor.svg.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            filter: drop-shadow(0 0 8px white) brightness(1.8);
+        /* BIAŁE DRZEWO - STYL */
+        #tree-wrapper {
+            width: 180px; height: 180px; margin: 20px auto;
+            filter: drop-shadow(0 0 8px white);
             transition: all 1s ease;
         }
-
         .pulsing-tree {
             animation: treeGlow 4s infinite ease-in-out;
         }
-
         @keyframes treeGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px white) brightness(1.5); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 25px var(--cyrkon-blue)) brightness(2.5); transform: scale(1.03); }
+            0%, 100% { filter: drop-shadow(0 0 10px white) brightness(1.2); transform: scale(1); }
+            50% { filter: drop-shadow(0 0 25px var(--cyrkon-blue)) brightness(2); transform: scale(1.05); }
         }
 
         #time-display { font-size: 4em; text-align: center; color: white; text-shadow: 0 0 10px var(--cyrkon-blue); margin: 10px 0; }
@@ -85,7 +76,6 @@
         iframe { width: 100%; height: 500px; border: none; border-radius: 15px; }
         textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
 
-        /* PORTALE PŁYWAJĄCE */
         .gemini-portal, .thought-portal { position:fixed; bottom:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; transition:0.3s; text-decoration:none; }
         .gemini-portal { right:25px; background: radial-gradient(circle,#e0f2ff 0%,#00d4ff 100%); box-shadow:0 0 15px var(--cyrkon-blue); font-size: 24px; color: #0a1428; }
         .thought-portal { left:25px; background: radial-gradient(circle,#fdfbfb 0%,#ebedee 100%); box-shadow:0 0 15px white; font-size: 24px; }
@@ -117,7 +107,18 @@
     </div>
 
     <div id="timer" class="tab-content active" style="text-align:center;">
-        <div id="tree-container"></div>
+        <div id="tree-wrapper">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 95 V70 M50 70 L30 50 M50 70 L70 50 M50 60 L40 40 M50 60 L60 40 M50 50 V20" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+                <circle cx="50" cy="15" r="2" fill="white"/>
+                <circle cx="30" cy="45" r="1.5" fill="white"/>
+                <circle cx="70" cy="45" r="1.5" fill="white"/>
+                <circle cx="40" cy="35" r="1.5" fill="white"/>
+                <circle cx="60" cy="35" r="1.5" fill="white"/>
+                <circle cx="25" cy="60" r="1" fill="white"/>
+                <circle cx="75" cy="60" r="1" fill="white"/>
+            </svg>
+        </div>
         <div id="time-display">25:00</div>
         <button class="tab-button" onclick="startTreeTimer()">Rozpocznij Skupienie</button>
     </div>
@@ -132,12 +133,12 @@
     </div>
 </div>
 
-<a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Rozmawiaj z Gemini">✦</a>
-<div class="thought-portal" onclick="toggleThoughts()" title="Szybkie myśli">✎</div>
+<a href="https://gemini.google.com/" target="_blank" class="gemini-portal">✦</a>
+<div class="thought-portal" onclick="toggleThoughts()">✎</div>
 
 <div id="thought-popup">
-    <input type="text" id="new-thought" placeholder="Wyrzuć to z głowy..." style="width:75%; background:none; border:1px solid white; color:white; padding:5px;">
-    <button onclick="addThought()" style="background:white; border:none; padding:5px 10px; cursor:pointer;">+</button>
+    <input type="text" id="new-thought" placeholder="Wyrzuć to z głowy..." style="width:70%; background:none; border:1px solid white; color:white; padding:5px;">
+    <button onclick="addThought()" style="background:white; border:none; padding:5px; cursor:pointer;">+</button>
     <ul id="mini-thought-list" style="list-style:none; padding:10px 0; font-size:0.8em; color:white; max-height:100px; overflow-y:auto;"></ul>
 </div>
 
@@ -149,13 +150,11 @@
         evt.currentTarget.classList.add('active');
     }
 
-    // MAGIA BIAŁEGO DRZEWA
     let timer;
     function startTreeTimer() {
         let t = 25 * 60; 
-        const tree = document.getElementById('tree-container');
+        const tree = document.getElementById('tree-wrapper');
         tree.classList.add('pulsing-tree');
-        
         clearInterval(timer);
         timer = setInterval(() => {
             let m = Math.floor(t / 60);
@@ -164,26 +163,18 @@
             if (t <= 0) {
                 clearInterval(timer);
                 tree.classList.remove('pulsing-tree');
-                tree.style.filter = "drop-shadow(0 0 40px white) brightness(3)";
-                alert("Białe Drzewo rozkwitło! Misja zakończona sukcesem.");
+                tree.style.filter = "drop-shadow(0 0 30px white) brightness(2)";
+                alert("Białe Drzewo rozkwitło!");
             }
             t--;
         }, 1000);
     }
 
-    // RADY VARDY
     function getVardaAdvice() {
-        const advices = [
-            "Nawet najmniejsza gwiazda rozprasza mrok.", 
-            "Odetchnij głęboko 5 razy... Rivendell czuwa.", 
-            "ADHD to supermoc szybkiego myślenia - użyj jej!", 
-            "Podziel wielkie zadanie na małe kroki.", 
-            "Jesteś światłem Imladris, Amariel."
-        ];
+        const advices = ["Nawet najmniejsza gwiazda rozprasza mrok.", "Odetchnij głęboko.", "ADHD to supermoc szybkiego myślenia.", "Podziel zadanie na kroki.", "Jesteś światłem Imladris."];
         document.getElementById('varda-message').innerText = advices[Math.floor(Math.random()*advices.length)];
     }
 
-    // BRAIN DUMP / SZYBKIE MYŚLI
     function toggleThoughts() {
         const p = document.getElementById('thought-popup');
         p.style.display = (p.style.display === 'block') ? 'none' : 'block';
@@ -198,10 +189,9 @@
         }
     }
 
-    // ZAPISYWANIE NOTATEK
     function saveNotes() {
         localStorage.setItem('arawis_classic_notes', document.getElementById('myNotes').value);
-        alert("Twoje zapiski zostały zabezpieczone w archiwach!");
+        alert("Zapisano!");
     }
 
     window.onload = function() {

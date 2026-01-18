@@ -5,6 +5,32 @@
     <title>Arawis - Gwiazda Poranna Rivendell</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
+        /* Symbol Varday */
+        .varda-symbol {
+            display: block;
+            margin: 20px auto;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            filter: drop-shadow(0 0 10px white);
+            transition: 0.5s;
+            animation: pulse-glow 3s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 5px white); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 20px var(--cyrkon-blue)); }
+        }
+
+        #varda-message {
+            text-align: center;
+            font-style: italic;
+            min-height: 40px;
+            margin: 10px auto;
+            max-width: 600px;
+            color: white;
+            text-shadow: 0 0 5px var(--cyrkon-blue);
+        }
         :root {
             --night-blue: #0a1428;
             --silver: #c0c0c0;
@@ -226,6 +252,13 @@
 <header>
     <h1>✧ ARAWIS ✧</h1>
     <p>Gwiazda Poranna Rivendell</p>
+    <div align="center">
+        <svg class="varda-symbol" viewBox="0 0 100 100" onclick="getVardaAdvice()">
+            <path d="M50 0 L60 40 L100 50 L60 60 L50 100 L40 60 L0 50 L40 40 Z" fill="white"/>
+            <circle cx="50" cy="50" r="10" fill="var(--cyrkon-blue)"/>
+        </svg>
+        <div id="varda-message">Kliknij w Gwiazdę Elentári, by usłyszeć radę...</div>
+    </div>
 </header>
 
 <div class="tab-container">
@@ -340,11 +373,32 @@
             document.getElementById('new-thought').value = "";
         }
     }
+const vardaAdvices = [
+        "Aiya Elentári! Pamiętaj, że nawet najmniejsza gwiazda rozprasza największe ciemności.",
+        "ADHD to dar szybkiego myślenia – pozwól swoim myślom płynąć jak Wielka Rzeka, ale wyznacz im brzegi.",
+        "Zrób teraz 5 głębokich wdechów. Powietrze w Imladris zawsze przynosi spokój.",
+        "Namarie! Skup się na jednej rzeczy przez 10 minut, a gwiazdy będą Ci sprzyjać.",
+        "Elen síla lúmenn' omentielvo – gwiazda świeci nad godziną naszego spotkania. Odpocznij chwilę.",
+        "Twoja kreatywność jest jak światło Dwóch Drzew. Nie pozwól nikomu jej zgasić.",
+        "Jeśli zadanie wydaje się za trudne, podziel je na małe kroki, jak stopnie w wieży Elostirion."
+    ];
 
+    function getVardaAdvice() {
+        const msgDiv = document.getElementById('varda-message');
+        const randomAdvice = vardaAdvices[Math.floor(Math.random() * vardaAdvices.length)];
+        
+        // Efekt znikania i pojawiania się tekstu
+        msgDiv.style.opacity = 0;
+        setTimeout(() => {
+            msgDiv.innerText = randomAdvice;
+            msgDiv.style.opacity = 1;
+        }, 300);
+    }
     function saveNotes() { localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano!"); }
     window.onload = function() { document.getElementById('myNotes').value = localStorage.getItem('arawis_notes') || ""; }
 </script>
 
 </body>
 </html>
+
 

@@ -11,6 +11,7 @@
             --star-glow: #e0f2ff;
             --cyrkon-blue: #00d4ff;
         }
+    
 
         body {
             background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
@@ -19,6 +20,7 @@
             margin: 0;
             min-height: 100vh;
             overflow-x: hidden;
+            cursor: url('https://cur.cursors-4u.net/games/gam-4/gam372.cur'), auto;
         }
 
         .stars {
@@ -464,17 +466,19 @@
         const saved = localStorage.getItem('arawis_notes');
         if(saved) document.getElementById('myNotes').value = saved;
     }
+    function toggleThoughts() {
+        const popup = document.getElementById('thought-popup');
+        popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+    }
+
     function addThought() {
-        const input = document.getElementById('brain-input');
-        const list = document.getElementById('thought-list');
-        
-        if (input.value.trim() !== "") {
+        const input = document.getElementById('new-thought');
+        const list = document.getElementById('mini-thought-list');
+        if(input.value) {
             const li = document.createElement('li');
-            li.className = 'dump-item';
-            li.innerHTML = `<span>✧ ${input.value}</span> <span style="cursor:pointer; color:var(--cyrkon-blue)" onclick="this.parentElement.remove()">✕</span>`;
-            
-            list.prepend(li); // Dodaje nową myśl na samej górze
-            input.value = ""; // Czyści pole
+            li.innerHTML = `✧ ${input.value} <hr style="opacity:0.2">`;
+            list.prepend(li);
+            input.value = "";
         }
     }
 
@@ -495,6 +499,7 @@
     </div>
 </body>
 </html>
+
 
 
 

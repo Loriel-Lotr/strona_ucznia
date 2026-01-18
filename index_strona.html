@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Arawis - Gwiazda Poranna Rivendell</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         :root {
             --night-blue: #0a1428;
@@ -255,6 +256,37 @@
             justify-content: space-between;
             animation: fadeIn 0.3s;
         }
+        /* MAGIA RESPONSYWNOŚCI */
+        @media (max-width: 768px) {
+            h1 { font-size: 1.8em; }
+            
+            .tab-buttons {
+                flex-direction: column; /* Przyciski w pionie na telefonie */
+                align-items: stretch;
+            }
+
+            .tab-button {
+                text-align: center;
+                padding: 15px; /* Większe, żeby łatwiej klikać palcem */
+            }
+
+            .tab-content {
+                padding: 15px;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            .brain-dump-container {
+                flex-direction: column;
+                width: 95%;
+            }
+
+            iframe {
+                height: 400px; /* Nieco niższy kalendarz na telefonie */
+            }
+
+            #time-display { font-size: 2.5em; }
+        }
     </style>
 </head>
 <body>
@@ -449,6 +481,7 @@
     <div class="portal-tooltip">Skonsultuj się z Gemini</div>
 </body>
 </html>
+
 
 
 

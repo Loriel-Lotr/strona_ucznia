@@ -8,38 +8,41 @@
             --night-blue: #0a1428;
             --silver: #c0c0c0;
             --star-glow: #e0f2ff;
-            --elven-gold: #d4af37;
+            --cyrkon-blue: #00d4ff;
         }
 
         body {
             background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
             color: var(--silver);
-            font-family: 'Cinzel', serif; /* Jeśli nie masz tej czcionki, użyje szeryfowej */
             font-family: 'Georgia', serif;
             margin: 0;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* Efekt gwiazd w tle */
         .stars {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
             z-index: -1;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
         }
 
         header {
             text-align: center;
             padding: 40px;
-            text-shadow: 0 0 10px var(--star-glow);
+            text-shadow: 0 0 15px var(--star-glow);
         }
 
-        h1 { font-size: 2.5em; letter-spacing: 5px; color: white; }
+        h1 { font-size: 2.5em; letter-spacing: 5px; color: white; margin: 0; }
 
-        /* Zakładki (Tabs) */
         .tab-container {
-            width: 90%;
+            width: 95%;
             max-width: 1000px;
             margin: 0 auto;
         }
@@ -47,35 +50,37 @@
         .tab-buttons {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 25px;
             flex-wrap: wrap;
         }
 
         .tab-button {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(10, 25, 47, 0.6);
             border: 1px solid var(--silver);
             color: var(--silver);
-            padding: 10px 20px;
+            padding: 12px 25px;
             cursor: pointer;
-            border-radius: 20px;
-            transition: 0.3s;
-            box-shadow: 0 0 5px rgba(192, 192, 192, 0.2);
+            border-radius: 30px;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .tab-button:hover, .tab-button.active {
-            background: var(--silver);
+            background: white;
             color: var(--night-blue);
-            box-shadow: 0 0 15px var(--star-glow);
+            box-shadow: 0 0 20px var(--cyrkon-blue), 0 0 40px var(--cyrkon-blue);
+            transform: translateY(-2px);
         }
 
         .tab-content {
             display: none;
-            background: rgba(10, 20, 40, 0.8);
-            border: 1px solid rgba(192, 192, 192, 0.3);
+            background: rgba(10, 20, 40, 0.85);
+            border: 1px solid rgba(192, 192, 192, 0.2);
             padding: 30px;
-            border-radius: 15px;
-            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
             animation: fadeIn 0.5s;
         }
 
@@ -86,17 +91,33 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Drzewo Gondoru - Timer */
-        #tree-container {
-            text-align: center;
-            font-size: 50px;
-            margin: 20px;
-            min-height: 100px;
+        #tree-container { font-size: 60px; text-align: center; margin: 20px; }
+        
+        .math-box {
+            font-family: 'Courier New', monospace;
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 10px;
+            white-space: pre;
+            margin-top: 20px;
+            border-left: 4px solid var(--cyrkon-blue);
+            overflow-x: auto;
         }
 
-        .gem {
-            color: #00d4ff;
-            text-shadow: 0 0 10px #00d4ff;
+        input, select {
+            padding: 10px;
+            background: #1a2a44;
+            color: white;
+            border: 1px solid var(--silver);
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        iframe {
+            border: 1px solid var(--silver);
+            border-radius: 10px;
+            width: 100%;
+            height: 500px;
         }
     </style>
 </head>
@@ -105,81 +126,53 @@
 <div class="stars"></div>
 
 <header>
-    <h1>ARAWIS</h1>
-    <p>✧ Gwiazda Poranna Rivendell ✧</p>
+    <h1>✧ ARAWIS ✧</h1>
+    <p>Gwiazda Poranna Rivendell</p>
 </header>
 
 <div class="tab-container">
     <div class="tab-buttons">
         <button class="tab-button active" onclick="openTab(event, 'timer')">Białe Drzewo</button>
-        <button class="tab-button" onclick="openTab(event, 'math')">Matematyka Elfów</button>
+        <button class="tab-button" onclick="openTab(event, 'math')">Matematyka</button>
         <button class="tab-button" onclick="openTab(event, 'calendar')">Kalendarz</button>
         <button class="tab-button" onclick="openTab(event, 'notes')">Notatnik</button>
     </div>
 
     <div id="timer" class="tab-content active">
-        <h2 align="center">Timer Koncentracji</h2>
+        <h2 align="center">Koncentracja w Imladris</h2>
         <div id="tree-container">⏳</div>
-        <div style="font-size: 3em; text-align: center; margin-bottom: 20px;" id="time-display">25:00</div>
+        <div style="font-size: 3.5em; text-align: center; margin-bottom: 20px;" id="time-display">25:00</div>
         <div align="center">
             <button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button>
         </div>
     </div>
 
     <div id="math" class="tab-content">
-        <h2>Dzielenie pod kreską</h2>
-        <p>Wpisz liczby, aby otrzymać wynik (logika obliczeń pisemnych w trakcie budowy...)</p>
-       <div id="math" class="tab-content">
-    <h2>Matematyka Imladris</h2>
-    <div style="margin-bottom: 20px;">
-        <input type="number" id="numA" placeholder="Liczba A" style="width: 80px;">
-        <select id="op" style="padding: 10px; background: #3e2723; color: white; border-radius: 5px;">
-            <option value="add">+</option>
-            <option value="sub">-</option>
-            <option value="mul">×</option>
-            <option value="div">÷</option>
-        </select>
-        <input type="number" id="numB" placeholder="Liczba B" style="width: 80px;">
-        <button class="tab-button" onclick="performMath()">Oblicz pisemnie</button>
+        <h2>Matematyka Elfów (Pisemna)</h2>
+        <div align="center">
+            <input type="number" id="numA" placeholder="Liczba A">
+            <select id="op">
+                <option value="add">+</option>
+                <option value="sub">-</option>
+                <option value="mul">×</option>
+                <option value="div">÷</option>
+            </select>
+            <input type="number" id="numB" placeholder="Liczba B">
+            <br><br>
+            <button class="tab-button" onclick="performMath()">Oblicz pod kreską</button>
+        </div>
+        <div id="math-result" class="math-box">Tu pojawi się schemat działania...</div>
     </div>
-
-    <div id="math-result" style="font-family: 'Courier New', monospace; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px; line-height: 1.5; color: #e0f2ff; white-space: pre;">
-        Wpisz liczby i wybierz działanie, by zobaczyć magię...
-    </div>
-</div>
-
-<script>
-function performMath() {
-    const a = document.getElementById('numA').value;
-    const b = document.getElementById('numB').value;
-    const op = document.getElementById('op').value;
-    const resDiv = document.getElementById('math-result');
-
-    if(!a || !b) { resDiv.innerText = "Wpisz obie liczby, Amariel!"; return; }
-
-    if(op === 'add') {
-        let sum = Number(a) + Number(b);
-        resDiv.innerHTML = `  ${a.padStart(10)}\n+ ${b.padStart(10)}\n----------\n  ${sum.toString().padStart(10)}`;
-    } 
-    else if(op === 'sub') {
-        let diff = Number(a) - Number(b);
-        resDiv.innerHTML = `  ${a.padStart(10)}\n- ${b.padStart(10)}\n----------\n  ${diff.toString().padStart(10)}`;
-    }
-    else if(op === 'mul') {
-        let prod = Number(a) * Number(b);
-        resDiv.innerHTML = `Mnożenie pisemne (uproszczone):\n\n  ${a.padStart(10)}\n× ${b.padStart(10)}\n----------\n  ${prod.toString().padStart(10)}`;
-    }
-    else if(op === 'div') {
-        let quotient = Math.floor(Number(a) / Number(b));
-        let remainder = Number(a) % Number(b);
-        resDiv.innerHTML = `Dzielenie: ${a} ÷ ${b}\n\nWynik: ${quotient}\nReszta: ${remainder}\n\n(Pracujemy nad pełnym schematem schodkowym!)`;
-    }
-}
-</script>
 
     <div id="calendar" class="tab-content">
-        <h2>Twoje Terminy</h2>
-       <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+        <h2 align="center">Terminy Gwiazdy Porannej</h2>
+        <iframe src="https://calendar.google.com/calendar/embed?src=lucja.m.reczek%40gmail.com&ctz=Europe%2FWarsaw" frameborder="0" scrolling="no"></iframe>
+    </div>
+
+    <div id="notes" class="tab-content">
+        <h2>Elfickie Zapiski</h2>
+        <textarea id="myNotes" style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border-radius: 10px; padding: 10px;" placeholder="Miejsce na Twoje myśli..."></textarea>
+        <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz w pamięci</button>
     </div>
 </div>
 
@@ -187,15 +180,38 @@ function performMath() {
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].classList.remove("active");
-        }
+        for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
         tablinks = document.getElementsByClassName("tab-button");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].classList.remove("active");
-        }
+        for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
         document.getElementById(tabName).classList.add("active");
         evt.currentTarget.classList.add("active");
+    }
+
+    function performMath() {
+        const a = document.getElementById('numA').value;
+        const b = document.getElementById('numB').value;
+        const op = document.getElementById('op').value;
+        const resDiv = document.getElementById('math-result');
+        if(!a || !b) { resDiv.innerText = "Wpisz obie liczby!"; return; }
+
+        let valA = a.toString();
+        let valB = b.toString();
+        let len = Math.max(valA.length, valB.length) + 2;
+
+        if(op === 'add') {
+            let sum = (Number(a) + Number(b)).toString();
+            resDiv.innerHTML = `${valA.padStart(len)}\n+ ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${sum.padStart(len)}`;
+        } else if(op === 'sub') {
+            let diff = (Number(a) - Number(b)).toString();
+            resDiv.innerHTML = `${valA.padStart(len)}\n- ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${diff.padStart(len)}`;
+        } else if(op === 'mul') {
+            let prod = (Number(a) * Number(b)).toString();
+            resDiv.innerHTML = `${valA.padStart(len)}\n× ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${prod.padStart(len)}`;
+        } else if(op === 'div') {
+            let q = Math.floor(Number(a) / Number(b));
+            let r = Number(a) % Number(b);
+            resDiv.innerHTML = `Działanie: ${a} ÷ ${b}\nWynik: ${q}\nReszta: ${r}`;
+        }
     }
 
     let timerInterval;
@@ -203,27 +219,33 @@ function performMath() {
         let time = 25 * 60;
         const display = document.getElementById('time-display');
         const tree = document.getElementById('tree-container');
-        
-        tree.innerHTML = "🌱"; // Zaczyna jako kiełek
-
+        tree.innerHTML = "🌱";
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
             let mins = Math.floor(time / 60);
             let secs = time % 60;
             display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            
-            if (time === 20 * 60) tree.innerHTML = "🌿";
-            if (time === 10 * 60) tree.innerHTML = "🌳";
+            if (time === 1200) tree.innerHTML = "🌿";
+            if (time === 600) tree.innerHTML = "🌳";
             if (time <= 0) {
                 clearInterval(timerInterval);
-                tree.innerHTML = "✨ 🌳 ✨"; // Białe Drzewo rozbłysło!
-                alert("Gratulacje, Amariel! Twoje drzewo w Rivendell urosło.");
+                tree.innerHTML = "✨ 🌳 ✨";
+                alert("Drzewo Gondoru rozkwitło!");
             }
             time--;
         }, 1000);
     }
+
+    function saveNotes() {
+        const notes = document.getElementById('myNotes').value;
+        localStorage.setItem('arawis_notes', notes);
+        alert("Zapisano!");
+    }
+    
+    window.onload = function() {
+        const saved = localStorage.getItem('arawis_notes');
+        if(saved) document.getElementById('myNotes').value = saved;
+    }
 </script>
-
 </body>
-
 </html>

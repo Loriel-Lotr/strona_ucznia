@@ -131,6 +131,56 @@
         #valacirca { top: 10%; left: 5%; width: 200px; transform: rotate(-20deg); }
         #menelmacar { bottom: 15%; right: 10%; width: 150px; }
         #remmirath { top: 20%; right: 15%; width: 80px; }
+        /* Przycisk Gemini - Gwiazda Portalu */
+        .gemini-portal {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #e0f2ff 0%, #00d4ff 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+            z-index: 1000;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            font-size: 24px;
+        }
+
+        .gemini-portal:hover {
+            transform: scale(1.2) rotate(15deg);
+            box-shadow: 0 0 30px #e0f2ff, 0 0 60px #00d4ff;
+        }
+
+        .gemini-portal::after {
+            content: '✦';
+            color: white;
+            text-shadow: 0 0 10px white;
+        }
+
+        /* Dymek z napisem */
+        .portal-tooltip {
+            position: fixed;
+            bottom: 45px;
+            right: 100px;
+            background: rgba(10, 25, 47, 0.9);
+            color: var(--silver);
+            padding: 5px 15px;
+            border-radius: 10px;
+            border: 1px solid var(--cyrkon-blue);
+            font-size: 12px;
+            pointer-events: none;
+            opacity: 0;
+            transition: 0.3s;
+        }
+
+        .gemini-portal:hover + .portal-tooltip {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -278,6 +328,9 @@
         if(saved) document.getElementById('myNotes').value = saved;
     }
 </script>
+    <a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Zapytaj Gemini"></a>
+    <div class="portal-tooltip">Skonsultuj się z Gemini</div>
 </body>
 </html>
+
 

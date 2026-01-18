@@ -11,82 +11,70 @@
             --cyrkon-blue: #00d4ff;
         }
 
-        body {
+        /* EKRAN BLOKADY */
+        #lock-screen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
-            color: var(--silver);
-            font-family: 'Georgia', serif;
-            margin: 0;
-            min-height: 100vh;
-            overflow-x: hidden;
-            cursor: url('https://cur.cursors-4u.net/games/gam-4/gam372.cur'), auto;
+            z-index: 9999; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; color: white;
+        }
+        .lock-input {
+            background: rgba(255,255,255,0.1); border: 2px solid var(--cyrkon-blue);
+            color: white; padding: 15px; border-radius: 10px;
+            font-size: 1.2em; text-align: center; margin-bottom: 20px; outline: none;
         }
 
+        /* STYL GŁÓWNY */
+        body {
+            background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
+            color: var(--silver); font-family: 'Georgia', serif;
+            margin: 0; min-height: 100vh; overflow-x: hidden;
+            cursor: url('https://cur.cursors-4u.net/games/gam-4/gam372.cur'), auto;
+        }
         .stars {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: url('https://www.transparenttextures.com/patterns/stardust.png');
-            z-index: -1;
-            animation: twinkle 5s infinite ease-in-out;
+            z-index: -1; animation: twinkle 5s infinite ease-in-out;
         }
         @keyframes twinkle { 0%,100%{opacity:0.4} 50%{opacity:1} }
-
         header { text-align: center; padding: 20px; }
         h1 { font-size: 2.5em; letter-spacing: 5px; color: white; text-shadow: 0 0 15px var(--cyrkon-blue); margin: 0; }
-
-        .varda-symbol { 
-            display:block; margin:10px auto; width:45px; height:45px; cursor:pointer; 
-            filter: drop-shadow(0 0 10px white); animation: pulse-glow 3s infinite; 
-        }
-        @keyframes pulse-glow {
-            0%,100%{transform:scale(1);filter:drop-shadow(0 0 5px white);}
-            50%{transform:scale(1.1);filter:drop-shadow(0 0 20px var(--cyrkon-blue));}
-        }
-        #varda-message { text-align:center; font-style:italic; min-height:30px; margin-top:10px; color: white; }
+        
+        .varda-symbol { display:block; margin:10px auto; width:45px; height:45px; cursor:pointer; filter: drop-shadow(0 0 10px white); animation: pulse-glow 3s infinite; }
+        @keyframes pulse-glow {0%,100%{transform:scale(1);filter:drop-shadow(0 0 5px white);}50%{transform:scale(1.1);filter:drop-shadow(0 0 20px var(--cyrkon-blue));}}
+        #varda-message { text-align:center; font-style:italic; min-height:30px; margin-top:10px; color: white; padding: 0 20px; }
 
         .tab-container { width: 95%; max-width: 1000px; margin: 0 auto; }
         .tab-buttons { display: flex; justify-content: center; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; }
-        .tab-button {
-            background: rgba(10,25,47,0.6); border: 1px solid var(--silver); color: var(--silver);
-            padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.4s;
-            text-transform: uppercase; font-size: 0.85em;
-        }
+        .tab-button { background: rgba(10,25,47,0.6); border: 1px solid var(--silver); color: var(--silver); padding: 10px 20px; cursor: pointer; border-radius: 20px; transition: 0.4s; text-transform: uppercase; font-size: 0.85em; }
         .tab-button.active { background: white; color: var(--night-blue); box-shadow: 0 0 15px var(--cyrkon-blue); }
-
-        .tab-content {
-            display: none; background: rgba(10,20,40,0.85); border: 1px solid rgba(192,192,192,0.2);
-            padding: 30px; border-radius: 20px; backdrop-filter: blur(8px); min-height: 450px;
-        }
+        .tab-content { display: none; background: rgba(10,20,40,0.85); border: 1px solid rgba(192,192,192,0.2); padding: 30px; border-radius: 20px; backdrop-filter: blur(8px); min-height: 450px; }
         .tab-content.active { display: block; }
 
-        /* BIAŁE DRZEWO - STYL */
-        #tree-wrapper {
-            width: 180px; height: 180px; margin: 20px auto;
-            filter: drop-shadow(0 0 8px white);
-            transition: all 1s ease;
-        }
-        .pulsing-tree {
-            animation: treeGlow 4s infinite ease-in-out;
-        }
-        @keyframes treeGlow {
-            0%, 100% { filter: drop-shadow(0 0 10px white) brightness(1.2); transform: scale(1); }
-            50% { filter: drop-shadow(0 0 25px var(--cyrkon-blue)) brightness(2); transform: scale(1.05); }
-        }
-
+        /* BIAŁE DRZEWO */
+        #tree-wrapper { width: 180px; height: 180px; margin: 20px auto; filter: drop-shadow(0 0 8px white); transition: all 1s ease; }
+        .pulsing-tree { animation: treeGlow 4s infinite ease-in-out; }
+        @keyframes treeGlow { 0%, 100% { filter: drop-shadow(0 0 10px white) brightness(1.2); transform: scale(1); } 50% { filter: drop-shadow(0 0 25px var(--cyrkon-blue)) brightness(2); transform: scale(1.05); } }
         #time-display { font-size: 4em; text-align: center; color: white; text-shadow: 0 0 10px var(--cyrkon-blue); margin: 10px 0; }
 
         iframe { width: 100%; height: 500px; border: none; border-radius: 15px; }
         textarea { width: 100%; height: 300px; background: rgba(0,0,0,0.3); color: white; border: 1px solid var(--silver); padding: 15px; border-radius: 10px; box-sizing: border-box; font-family: inherit; }
 
+        /* PORTALE PŁYWAJĄCE */
         .gemini-portal, .thought-portal { position:fixed; bottom:25px; width:55px; height:55px; border-radius:50%; display:flex; align-items:center; justify-content:center; cursor:pointer; z-index:1000; transition:0.3s; text-decoration:none; }
         .gemini-portal { right:25px; background: radial-gradient(circle,#e0f2ff 0%,#00d4ff 100%); box-shadow:0 0 15px var(--cyrkon-blue); font-size: 24px; color: #0a1428; }
         .thought-portal { left:25px; background: radial-gradient(circle,#fdfbfb 0%,#ebedee 100%); box-shadow:0 0 15px white; font-size: 24px; }
-
-        #thought-popup {
-            display:none; position:fixed; bottom:90px; left:25px; background:rgba(10,20,40,0.95); border:1px solid white; 
-            padding:15px; border-radius:15px; width:230px; z-index:1001;
-        }
+        #thought-popup { display:none; position:fixed; bottom:90px; left:25px; background:rgba(10,20,40,0.95); border:1px solid white; padding:15px; border-radius:15px; width:230px; z-index:1001; }
     </style>
 </head>
 <body>
+
+<div id="lock-screen">
+    <div style="font-size: 50px; margin-bottom: 20px;">🗝️</div>
+    <h2 style="text-shadow: 0 0 10px var(--cyrkon-blue); text-align: center; padding: 0 20px;">Wypowiedz hasło, przyjacielu, i wejdź...</h2>
+    <input type="password" id="pass-input" class="lock-input" placeholder="Wpisz hasło">
+    <button class="tab-button" onclick="checkPassword()">OTWÓRZ BRAMĘ IMLADRIS</button>
+</div>
 
 <div class="stars"></div>
 
@@ -110,13 +98,7 @@
         <div id="tree-wrapper">
             <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <path d="M50 95 V70 M50 70 L30 50 M50 70 L70 50 M50 60 L40 40 M50 60 L60 40 M50 50 V20" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
-                <circle cx="50" cy="15" r="2" fill="white"/>
-                <circle cx="30" cy="45" r="1.5" fill="white"/>
-                <circle cx="70" cy="45" r="1.5" fill="white"/>
-                <circle cx="40" cy="35" r="1.5" fill="white"/>
-                <circle cx="60" cy="35" r="1.5" fill="white"/>
-                <circle cx="25" cy="60" r="1" fill="white"/>
-                <circle cx="75" cy="60" r="1" fill="white"/>
+                <circle cx="50" cy="15" r="2" fill="white"/><circle cx="30" cy="45" r="1.5" fill="white"/><circle cx="70" cy="45" r="1.5" fill="white"/><circle cx="40" cy="35" r="1.5" fill="white"/><circle cx="60" cy="35" r="1.5" fill="white"/>
             </svg>
         </div>
         <div id="time-display">25:00</div>
@@ -137,12 +119,30 @@
 <div class="thought-portal" onclick="toggleThoughts()">✎</div>
 
 <div id="thought-popup">
-    <input type="text" id="new-thought" placeholder="Wyrzuć to z głowy..." style="width:70%; background:none; border:1px solid white; color:white; padding:5px;">
+    <input type="text" id="new-thought" placeholder="Brain dump..." style="width:70%; background:none; border:1px solid white; color:white; padding:5px;">
     <button onclick="addThought()" style="background:white; border:none; padding:5px; cursor:pointer;">+</button>
     <ul id="mini-thought-list" style="list-style:none; padding:10px 0; font-size:0.8em; color:white; max-height:100px; overflow-y:auto;"></ul>
 </div>
 
 <script>
+    // SYSTEM HASŁA
+    function checkPassword() {
+        const pass = document.getElementById('pass-input').value;
+        const correctPass = "Mellon"; 
+
+        if (pass === correctPass) {
+            document.getElementById('lock-screen').style.display = 'none';
+        } else {
+            alert("Mellon... To nie jest właściwe słowo.");
+        }
+    }
+
+    // ŁADOWANIE DANYCH
+    window.onload = function() {
+        document.getElementById('myNotes').value = localStorage.getItem('arawis_classic_notes') || "";
+    };
+
+    // ZAKŁADKI
     function openTab(evt, name) {
         document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
         document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
@@ -150,6 +150,7 @@
         evt.currentTarget.classList.add('active');
     }
 
+    // TIMER
     let timer;
     function startTreeTimer() {
         let t = 25 * 60; 
@@ -163,18 +164,25 @@
             if (t <= 0) {
                 clearInterval(timer);
                 tree.classList.remove('pulsing-tree');
-                tree.style.filter = "drop-shadow(0 0 30px white) brightness(2)";
                 alert("Białe Drzewo rozkwitło!");
             }
             t--;
         }, 1000);
     }
 
+    // VARDA
     function getVardaAdvice() {
-        const advices = ["Nawet najmniejsza gwiazda rozprasza mrok.", "Odetchnij głęboko.", "ADHD to supermoc szybkiego myślenia.", "Podziel zadanie na kroki.", "Jesteś światłem Imladris."];
+        const advices = [
+            "Nawet najmniejsza gwiazda rozprasza mrok.", 
+            "Odetchnij głęboko 5 razy... Rivendell czuwa.", 
+            "ADHD to supermoc szybkiego myślenia - użyj jej!", 
+            "Podziel wielkie zadanie na małe kroki.", 
+            "Jesteś światłem Imladris, Amariel."
+        ];
         document.getElementById('varda-message').innerText = advices[Math.floor(Math.random()*advices.length)];
     }
 
+    // THOUGHTS
     function toggleThoughts() {
         const p = document.getElementById('thought-popup');
         p.style.display = (p.style.display === 'block') ? 'none' : 'block';
@@ -189,15 +197,11 @@
         }
     }
 
+    // NOTES
     function saveNotes() {
         localStorage.setItem('arawis_classic_notes', document.getElementById('myNotes').value);
-        alert("Zapisano!");
+        alert("Zapisano w archiwach!");
     }
-
-    window.onload = function() {
-        document.getElementById('myNotes').value = localStorage.getItem('arawis_classic_notes') || "";
-    };
 </script>
-
 </body>
 </html>

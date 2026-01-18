@@ -11,7 +11,6 @@
             --star-glow: #e0f2ff;
             --cyrkon-blue: #00d4ff;
         }
-    
 
         body {
             background: radial-gradient(circle at center, #1a2a44 0%, #0a1428 100%);
@@ -34,6 +33,26 @@
         @keyframes twinkle {
             0%, 100% { opacity: 0.4; }
             50% { opacity: 1; }
+        }
+
+        .shooting-star {
+            position: fixed;
+            top: -10px;
+            left: 50%;
+            width: 2px;
+            height: 2px;
+            background: white;
+            box-shadow: 0 0 10px white, 0 0 20px white;
+            border-radius: 50%;
+            opacity: 0;
+            animation: shoot 7s infinite linear;
+            z-index: -1;
+        }
+
+        @keyframes shoot {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            15% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
+            100% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
         }
 
         header {
@@ -94,8 +113,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        #tree-container { font-size: 60px; text-align: center; margin: 20px; }
-        
         .math-box {
             font-family: 'Courier New', monospace;
             background: rgba(255,255,255,0.05);
@@ -122,6 +139,7 @@
             width: 100%;
             height: 500px;
         }
+
         .constellation {
             position: fixed;
             z-index: -1;
@@ -130,109 +148,40 @@
             pointer-events: none;
         }
         
-        /* Pozycje dla różnych gwiazdozbiorów */
         #valacirca { top: 10%; left: 5%; width: 200px; transform: rotate(-20deg); }
         #menelmacar { bottom: 15%; right: 10%; width: 150px; }
-        #remmirath { top: 20%; right: 15%; width: 80px; }
-        /* Przycisk Gemini - Gwiazda Portalu */
-        .gemini-portal {
+
+        /* PORTALE W ROGACH */
+        .gemini-portal, .thought-portal {
             position: fixed;
             bottom: 30px;
-            right: 30px;
             width: 60px;
             height: 60px;
-            background: radial-gradient(circle, #e0f2ff 0%, #00d4ff 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
             z-index: 1000;
             transition: all 0.3s ease;
             text-decoration: none;
             font-size: 24px;
         }
 
-        .gemini-portal:hover {
-            transform: scale(1.2) rotate(15deg);
-            box-shadow: 0 0 30px #e0f2ff, 0 0 60px #00d4ff;
+        .gemini-portal { 
+            right: 30px; 
+            background: radial-gradient(circle, #e0f2ff 0%, #00d4ff 100%);
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
         }
+        .gemini-portal::after { content: '✦'; color: white; }
 
-        .gemini-portal::after {
-            content: '✦';
-            color: white;
-            text-shadow: 0 0 10px white;
-        }
-
-        /* Dymek z napisem */
-        .portal-tooltip {
-            position: fixed;
-            bottom: 45px;
-            right: 100px;
-            background: rgba(10, 25, 47, 0.9);
-            color: var(--silver);
-            padding: 5px 15px;
-            border-radius: 10px;
-            border: 1px solid var(--cyrkon-blue);
-            font-size: 12px;
-            pointer-events: none;
-            opacity: 0;
-            transition: 0.3s;
-        }
-
-        .gemini-portal:hover + .portal-tooltip {
-            opacity: 1;
-        }
-        /* Muzyczna Szkatułka */
-        .music-player {
-            background: rgba(10, 25, 47, 0.7);
-            border: 1px solid var(--cyrkon-blue);
-            border-radius: 15px;
-            padding: 15px;
-            margin-top: 20px;
-            text-align: center;
-        }
-
-        .music-btn {
-            background: none;
-            border: 1px solid var(--silver);
-            color: var(--silver);
-            padding: 5px 10px;
-            margin: 5px;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 0.8em;
-            transition: 0.3s;
-        }
-
-        .music-btn:hover {
-            box-shadow: 0 0 10px var(--cyrkon-blue);
-            color: var(--cyrkon-blue);
-        }
-      /* Portal Myśli (Brain Dump) - Lewy Róg */
-        .thought-portal {
-            position: fixed;
-            bottom: 30px;
-            left: 30px; /* Po przeciwnej stronie niż Gemini */
-            width: 60px;
-            height: 60px;
+        .thought-portal { 
+            left: 30px; 
             background: radial-gradient(circle, #fdfbfb 0%, #ebedee 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
             box-shadow: 0 0 20px white;
-            z-index: 1000;
-            transition: 0.3s;
-            font-size: 24px;
         }
-
-        .thought-portal:hover { transform: scale(1.2); }
         .thought-portal::after { content: '✎'; color: #0a1428; }
 
-        /* Ukryte okienko myśli, które się pojawia po kliknięciu */
         #thought-popup {
             display: none;
             position: fixed;
@@ -244,144 +193,80 @@
             border-radius: 15px;
             width: 250px;
             z-index: 1001;
-            box-shadow: 0 0 30px rgba(255,255,255,0.2);
         }
+
+        /* Muzyka */
+        .music-player {
+            background: rgba(10, 25, 47, 0.7);
+            border: 1px solid var(--cyrkon-blue);
+            border-radius: 15px;
+            padding: 15px;
+            margin-top: 20px;
         }
-        /* MAGIA RESPONSYWNOŚCI */
+
         @media (max-width: 768px) {
-            h1 { font-size: 1.8em; }
-            
-            .tab-buttons {
-                flex-direction: column; /* Przyciski w pionie na telefonie */
-                align-items: stretch;
-            }
-
-            .tab-button {
-                text-align: center;
-                padding: 15px; /* Większe, żeby łatwiej klikać palcem */
-            }
-
-            .tab-content {
-                padding: 15px;
-                width: 100%;
-                box-sizing: border-box;
-            }
-
-            .brain-dump-container {
-                flex-direction: column;
-                width: 95%;
-            }
-
-            iframe {
-                height: 400px; /* Nieco niższy kalendarz na telefonie */
-            }
-
-            #time-display { font-size: 2.5em; }
-        }
-        .shooting-star {
-            position: fixed;
-            top: -10px;
-            left: 50%;
-            width: 2px;
-            height: 2px;
-            background: white;
-            box-shadow: 0 0 10px white, 0 0 20px white;
-            border-radius: 50%;
-            opacity: 0;
-            animation: shoot 7s infinite linear;
-            z-index: -1;
-        }
-
-        @keyframes shoot {
-            0% { transform: translate(0, 0) scale(1); opacity: 1; }
-            15% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
-            100% { transform: translate(-300px, 300px) scale(0); opacity: 0; }
+            .tab-buttons { flex-direction: column; }
+            iframe { height: 350px; }
         }
     </style>
 </head>
 <body>
 
-<div class="stars">
-    <svg id="valacirca" class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="10" cy="50" r="1.5" fill="white" />
-    <circle cx="25" cy="45" r="1.5" fill="white" />
-    <circle cx="40" cy="50" r="1.5" fill="white" />
-    <circle cx="55" cy="65" r="2" fill="white" /> <circle cx="75" cy="65" r="1.5" fill="white" />
-    <circle cx="75" cy="45" r="1.5" fill="white" />
+<div class="stars"></div>
+<div class="shooting-star"></div>
+
+<svg id="valacirca" class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="10" cy="50" r="1.5" fill="white" /><circle cx="25" cy="45" r="1.5" fill="white" />
+    <circle cx="40" cy="50" r="1.5" fill="white" /><circle cx="55" cy="65" r="2" fill="white" /> 
+    <circle cx="75" cy="65" r="1.5" fill="white" /><circle cx="75" cy="45" r="1.5" fill="white" />
     <circle cx="55" cy="45" r="1.5" fill="white" />
     <path d="M10 50 L25 45 L40 50 L55 65 L75 65 L75 45 L55 45 L55 65" stroke="rgba(0, 212, 255, 0.3)" stroke-width="0.5" fill="none" />
 </svg>
-
-<svg id="menelmacar" class="constellation" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="20" r="1.5" fill="white" />
-    <circle cx="40" cy="45" r="2" fill="white" />
-    <circle cx="50" cy="50" r="2" fill="white" />
-    <circle cx="60" cy="55" r="2" fill="white" />
-    <circle cx="50" cy="80" r="1.5" fill="white" />
-    <path d="M50 20 L40 45 M50 20 L60 55 M40 45 L50 50 L60 55 M50 50 L50 80" stroke="rgba(0, 212, 255, 0.3)" stroke-width="0.5" fill="none" />
-</svg>
-</div>
 
 <header>
     <h1>✧ ARAWIS ✧</h1>
     <p>Gwiazda Poranna Rivendell</p>
 </header>
-<div class="brain-dump-container">
-        <input type="text" id="brain-input" placeholder="Co Ci chodzi po głowie, Gwiazdo Poranna?">
-        <button class="tab-button" onclick="addThought()" style="padding: 5px 15px;">Zapisz</button>
-    </div>
-    <ul id="thought-list" class="dump-list"></ul>
+
 <div class="tab-container">
     <div class="tab-buttons">
         <button class="tab-button active" onclick="openTab(event, 'timer')">Białe Drzewo</button>
         <button class="tab-button" onclick="openTab(event, 'math')">Matematyka</button>
-        <button class="tab-button" onclick="openTab(event, 'calendar')">Kalendarz</button>
+        <button class="tab-button" onclick="event, openTab(event, 'calendar')">Kalendarz</button>
         <button class="tab-button" onclick="openTab(event, 'notes')">Notatnik</button>
     </div>
 
     <div id="timer" class="tab-content active">
         <h2 align="center">Koncentracja w Imladris</h2>
-        <div id="tree-container">⏳</div>
+        <div id="tree-container" align="center">⏳</div>
         <div style="font-size: 3.5em; text-align: center; margin-bottom: 20px;" id="time-display">25:00</div>
         <div align="center">
             <button class="tab-button" onclick="startTreeTimer()">Zasadź Drzewo</button>
         </div>
-        <div class="music-player">
-        <p style="font-size: 0.9em; margin-bottom: 10px;">✧ Muzyka Imladris ✧</p>
-        <div id="player-container">
-            <iframe id="yt-player" width="100%" height="80" src="https://www.youtube.com/embed/dQw4w9WgXcQ?controls=1" 
-            frameborder="0" allow="autoplay; encrypted-media"></iframe>
-        </div>
-        <div class="music-buttons">
-            <button class="music-btn" onclick="changeMusic('dQw4w9WgXcQ')">Lofi</button>
-            <button class="music-btn" onclick="changeMusic('Z6Lp_mE6u6A')">Ambient Rivendell</button>
-            <button class="music-btn" onclick="changeMusic('f6vY6S86E60')">Dźwięki Lasu</button>
-        </div>
-    </div>
 
-    <script>
-        function changeMusic(videoId) {
-            const player = document.getElementById('yt-player');
-            player.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-        }
-    </script>
+        <div class="music-player" align="center">
+            <p>✧ Muzyka Imladris ✧</p>
+            <iframe id="yt-player" width="100%" height="80" src="https://www.youtube.com/embed/Z6Lp_mE6u6A" frameborder="0"></iframe>
+            <div style="margin-top:10px">
+                <button class="tab-button" style="font-size:0.7em" onclick="changeMusic('Z6Lp_mE6u6A')">Ambient</button>
+                <button class="tab-button" style="font-size:0.7em" onclick="changeMusic('f6vY6S86E60')">Las</button>
+            </div>
+        </div>
     </div>
 
     <div id="math" class="tab-content">
-        <h2>Matematyka Elfów (Pisemna)</h2>
+        <h2>Matematyka Elfów</h2>
         <div align="center">
             <input type="number" id="numA" placeholder="Liczba A">
             <select id="op">
-                <option value="add">+</option>
-                <option value="sub">-</option>
-                <option value="mul">×</option>
-                <option value="div">÷</option>
+                <option value="add">+</option><option value="sub">-</option>
+                <option value="mul">×</option><option value="div">÷</option>
             </select>
             <input type="number" id="numB" placeholder="Liczba B">
             <br><br>
-            <button class="tab-button" onclick="performMath()">Oblicz pod kreską</button>
+            <button class="tab-button" onclick="performMath()">Oblicz</button>
         </div>
-        <div id="math-result" class="math-box">Tu pojawi się schemat działania...</div>
+        <div id="math-result" class="math-box">Tu pojawi się wynik...</div>
     </div>
 
     <div id="calendar" class="tab-content">
@@ -391,118 +276,74 @@
 
     <div id="notes" class="tab-content">
         <h2>Elfickie Zapiski</h2>
-        <textarea id="myNotes" style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border-radius: 10px; padding: 10px;" placeholder="Miejsce na Twoje myśli..."></textarea>
-        <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz w pamięci</button>
+        <textarea id="myNotes" style="width: 100%; height: 200px; background: rgba(255,255,255,0.1); color: white; border-radius: 10px; padding: 10px;"></textarea>
+        <button class="tab-button" style="margin-top:10px" onclick="saveNotes()">Zapisz</button>
     </div>
+</div>
+
+<a href="https://gemini.google.com/" target="_blank" class="gemini-portal"></a>
+<div class="thought-portal" onclick="toggleThoughts()"></div>
+<div id="thought-popup">
+    <input type="text" id="new-thought" placeholder="Twoja myśl..." style="width:70%">
+    <button onclick="addThought()" style="cursor:pointer; border-radius:50%;">+</button>
+    <ul id="mini-thought-list" style="list-style:none; padding:10px 0; color:white; font-size:0.8em;"></ul>
 </div>
 
 <script>
     function openTab(evt, tabName) {
         var i, tabcontent, tablinks;
         tabcontent = document.getElementsByClassName("tab-content");
-        for (i = 0; i < tabcontent.length; i++) { tabcontent[i].classList.remove("active"); }
+        for (i = 0; i < tabcontent.length; i++) { tabcontent[i].style.display = "none"; }
         tablinks = document.getElementsByClassName("tab-button");
         for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-        document.getElementById(tabName).classList.add("active");
+        document.getElementById(tabName).style.display = "block";
         evt.currentTarget.classList.add("active");
     }
+
+    function changeMusic(id) { document.getElementById('yt-player').src = "https://www.youtube.com/embed/" + id + "?autoplay=1"; }
 
     function performMath() {
         const a = document.getElementById('numA').value;
         const b = document.getElementById('numB').value;
         const op = document.getElementById('op').value;
         const resDiv = document.getElementById('math-result');
-        if(!a || !b) { resDiv.innerText = "Wpisz obie liczby!"; return; }
-
-        let valA = a.toString();
-        let valB = b.toString();
-        let len = Math.max(valA.length, valB.length) + 2;
-
-        if(op === 'add') {
-            let sum = (Number(a) + Number(b)).toString();
-            resDiv.innerHTML = `${valA.padStart(len)}\n+ ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${sum.padStart(len)}`;
-        } else if(op === 'sub') {
-            let diff = (Number(a) - Number(b)).toString();
-            resDiv.innerHTML = `${valA.padStart(len)}\n- ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${diff.padStart(len)}`;
-        } else if(op === 'mul') {
-            let prod = (Number(a) * Number(b)).toString();
-            resDiv.innerHTML = `${valA.padStart(len)}\n× ${valB.padStart(len-2)}\n${'-'.repeat(len)}\n${prod.padStart(len)}`;
-        } else if(op === 'div') {
-            let q = Math.floor(Number(a) / Number(b));
-            let r = Number(a) % Number(b);
-            resDiv.innerHTML = `Działanie: ${a} ÷ ${b}\nWynik: ${q}\nReszta: ${r}`;
-        }
+        let res = eval(a + (op==='add'?'+':op==='sub'?'-':op==='mul'?'*':'/') + b);
+        resDiv.innerText = "Wynik: " + res;
     }
 
     let timerInterval;
     function startTreeTimer() {
         let time = 25 * 60;
-        const display = document.getElementById('time-display');
         const tree = document.getElementById('tree-container');
         tree.innerHTML = "🌱";
         clearInterval(timerInterval);
         timerInterval = setInterval(() => {
-            let mins = Math.floor(time / 60);
-            let secs = time % 60;
-            display.innerText = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-            if (time === 1200) tree.innerHTML = "🌿";
-            if (time === 600) tree.innerHTML = "🌳";
-            if (time <= 0) {
-                clearInterval(timerInterval);
-                tree.innerHTML = "✨ 🌳 ✨";
-                alert("Drzewo Gondoru rozkwitło!");
-            }
+            let m = Math.floor(time / 60);
+            let s = time % 60;
+            document.getElementById('time-display').innerText = m + ":" + (s < 10 ? '0' : '') + s;
+            if (time === 0) { clearInterval(timerInterval); tree.innerHTML = "✨ 🌳 ✨"; alert("Urosło!"); }
             time--;
         }, 1000);
     }
 
-    function saveNotes() {
-        const notes = document.getElementById('myNotes').value;
-        localStorage.setItem('arawis_notes', notes);
-        alert("Zapisano!");
-    }
-    
-    window.onload = function() {
-        const saved = localStorage.getItem('arawis_notes');
-        if(saved) document.getElementById('myNotes').value = saved;
-    }
     function toggleThoughts() {
-        const popup = document.getElementById('thought-popup');
-        popup.style.display = (popup.style.display === 'block') ? 'none' : 'block';
+        const p = document.getElementById('thought-popup');
+        p.style.display = (p.style.display === 'block') ? 'none' : 'block';
     }
 
     function addThought() {
-        const input = document.getElementById('new-thought');
-        const list = document.getElementById('mini-thought-list');
-        if(input.value) {
+        const val = document.getElementById('new-thought').value;
+        if(val) {
             const li = document.createElement('li');
-            li.innerHTML = `✧ ${input.value} <hr style="opacity:0.2">`;
-            list.prepend(li);
-            input.value = "";
+            li.innerHTML = "✧ " + val;
+            document.getElementById('mini-thought-list').prepend(li);
+            document.getElementById('new-thought').value = "";
         }
     }
 
-    // Pozwala dodać myśl klikając Enter
-    document.getElementById('brain-input').addEventListener('keypress', function (e) {
-        if (e.key === 'Enter') {
-            addThought();
-        }
-    });
+    function saveNotes() { localStorage.setItem('arawis_notes', document.getElementById('myNotes').value); alert("Zapisano!"); }
+    window.onload = function() { document.getElementById('myNotes').value = localStorage.getItem('arawis_notes') || ""; }
 </script>
-    <a href="https://gemini.google.com/" target="_blank" class="gemini-portal" title="Zapytaj Gemini"></a>
-    <div class="portal-tooltip">Skonsultuj się z Gemini</div>
-    <div class="thought-portal" onclick="toggleThoughts()"></div>
-    <div id="thought-popup">
-        <input type="text" id="new-thought" placeholder="Twoja myśl..." style="width:80%">
-        <button onclick="addThought()" style="background:white; border:none; border-radius:50%; width:30px; height:30px; cursor:pointer">+</button>
-        <ul id="mini-thought-list" style="list-style:none; padding:10px 0; margin:0; max-height:150px; overflow-y:auto;"></ul>
-    </div>
+
 </body>
 </html>
-
-
-
-
-
-
-
